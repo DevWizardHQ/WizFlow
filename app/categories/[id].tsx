@@ -2,7 +2,7 @@
  * Edit Category Screen
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -12,37 +12,37 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { CategoryIconPicker } from '@/components/CategoryIconPicker';
-import { ColorPicker } from '@/components/ColorPicker';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { ThemedText } from "@/components/themed-text";
+// import { ThemedView } from '@/components/themed-view';
+import { CategoryIconPicker } from "@/components/CategoryIconPicker";
+import { ColorPicker } from "@/components/ColorPicker";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import {
   getCategoryById,
   updateCategory,
   deleteCategory,
-  getCategoriesByType,
+  //   getCategoriesByType,
   getTransactionCount,
-} from '@/database';
-import type { Category, CategoryType } from '@/types';
+} from "@/database";
+import type { CategoryType } from "@/types";
 
 export default function EditCategoryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   // Form state
-  const [name, setName] = useState('');
-  const [type, setType] = useState<CategoryType>('expense');
-  const [icon, setIcon] = useState('folder');
-  const [color, setColor] = useState('#FF6B6B');
+  const [name, setName] = useState("");
+  const [type, setType] = useState<CategoryType>("expense");
+  const [icon, setIcon] = useState("folder");
+  const [color, setColor] = useState("#FF6B6B");
   const [loading, setLoading] = useState(true);
 
   // Modal state
@@ -58,14 +58,14 @@ export default function EditCategoryScreen() {
 
     const category = getCategoryById(parseInt(id, 10));
     if (!category) {
-      Alert.alert('Error', 'Category not found');
+      Alert.alert("Error", "Category not found");
       router.back();
       return;
     }
 
     // Prevent editing default categories
     if (category.is_custom === 0) {
-      Alert.alert('Cannot Edit', 'Default categories cannot be edited');
+      Alert.alert("Cannot Edit", "Default categories cannot be edited");
       router.back();
       return;
     }
@@ -77,13 +77,13 @@ export default function EditCategoryScreen() {
     setLoading(false);
   }, [id]);
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!name.trim()) {
-      Alert.alert('Missing Name', 'Please enter a category name');
+      Alert.alert("Missing Name", "Please enter a category name");
       return false;
     }
     return true;
-  };
+  }, [name]);
 
   const handleSave = useCallback(() => {
     if (!validateForm() || !id) return;
@@ -98,10 +98,10 @@ export default function EditCategoryScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to update category:', error);
-      Alert.alert('Error', 'Failed to update category. Please try again.');
+      console.error("Failed to update category:", error);
+      Alert.alert("Error", "Failed to update category. Please try again.");
     }
-  }, [id, name, icon, color]);
+  }, [id, name, icon, color, validateForm]);
 
   const handleDelete = useCallback(() => {
     if (!id) return;
@@ -112,47 +112,47 @@ export default function EditCategoryScreen() {
     if (txnCount > 0) {
       // Show reassignment dialog
       const alternativeCategories = getCategoriesByType(type).filter(
-        (c) => c.id !== parseInt(id, 10)
+        (c) => c.id !== parseInt(id, 10),
       );
 
       Alert.alert(
-        'Category In Use',
+        "Category In Use",
         `This category is used by ${txnCount} transaction(s). Please reassign them to another category before deleting, or delete anyway to leave those transactions with this category name.`,
         [
-          { text: 'Cancel', style: 'cancel' },
+          { text: "Cancel", style: "cancel" },
           {
-            text: 'Delete Anyway',
-            style: 'destructive',
+            text: "Delete Anyway",
+            style: "destructive",
             onPress: () => performDelete(),
           },
-        ]
+        ],
       );
     } else {
       Alert.alert(
-        'Delete Category',
-        'Are you sure you want to delete this category?',
+        "Delete Category",
+        "Are you sure you want to delete this category?",
         [
-          { text: 'Cancel', style: 'cancel' },
+          { text: "Cancel", style: "cancel" },
           {
-            text: 'Delete',
-            style: 'destructive',
+            text: "Delete",
+            style: "destructive",
             onPress: () => performDelete(),
           },
-        ]
+        ],
       );
     }
-  }, [id, name, type]);
+  }, [performDelete, id, name, type]);
 
-  const performDelete = () => {
+  const performDelete = useCallback(() => {
     try {
       deleteCategory(parseInt(id!, 10));
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to delete category:', error);
-      Alert.alert('Error', 'Failed to delete category.');
+      console.error("Failed to delete category:", error);
+      Alert.alert("Error", "Failed to delete category.");
     }
-  };
+  }, [id]);
 
   if (loading) {
     return (
@@ -164,17 +164,23 @@ export default function EditCategoryScreen() {
     );
   }
 
-  const isExpense = type === 'expense';
+  const isExpense = type === "expense";
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Edit Category</ThemedText>
@@ -183,7 +189,10 @@ export default function EditCategoryScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Preview */}
           <View style={styles.previewSection}>
             <View style={[styles.previewIcon, { backgroundColor: color }]}>
@@ -194,15 +203,27 @@ export default function EditCategoryScreen() {
               />
             </View>
             <ThemedText style={styles.previewName}>
-              {name || 'Category Name'}
+              {name || "Category Name"}
             </ThemedText>
-            <View style={[styles.typeBadge, {
-              backgroundColor: isExpense ? 'rgba(255, 107, 107, 0.2)' : 'rgba(76, 175, 80, 0.2)'
-            }]}>
-              <ThemedText style={[styles.typeBadgeText, {
-                color: isExpense ? '#FF6B6B' : '#4CAF50'
-              }]}>
-                {isExpense ? 'Expense' : 'Income'}
+            <View
+              style={[
+                styles.typeBadge,
+                {
+                  backgroundColor: isExpense
+                    ? "rgba(255, 107, 107, 0.2)"
+                    : "rgba(76, 175, 80, 0.2)",
+                },
+              ]}
+            >
+              <ThemedText
+                style={[
+                  styles.typeBadgeText,
+                  {
+                    color: isExpense ? "#FF6B6B" : "#4CAF50",
+                  },
+                ]}
+              >
+                {isExpense ? "Expense" : "Income"}
               </ThemedText>
             </View>
           </View>
@@ -246,7 +267,9 @@ export default function EditCategoryScreen() {
                 style={styles.selector}
                 onPress={() => setShowColorPicker(true)}
               >
-                <View style={[styles.colorPreview, { backgroundColor: color }]} />
+                <View
+                  style={[styles.colorPreview, { backgroundColor: color }]}
+                />
                 <ThemedText style={styles.selectorText}>Change</ThemedText>
               </TouchableOpacity>
             </View>
@@ -257,12 +280,12 @@ export default function EditCategoryScreen() {
             <ThemedText style={styles.label}>Category Type</ThemedText>
             <View style={styles.readOnlyField}>
               <Ionicons
-                name={isExpense ? 'arrow-up' : 'arrow-down'}
+                name={isExpense ? "arrow-up" : "arrow-down"}
                 size={18}
-                color={isExpense ? '#FF6B6B' : '#4CAF50'}
+                color={isExpense ? "#FF6B6B" : "#4CAF50"}
               />
               <ThemedText style={styles.readOnlyText}>
-                {isExpense ? 'Expense' : 'Income'}
+                {isExpense ? "Expense" : "Income"}
               </ThemedText>
               <ThemedText style={styles.readOnlyNote}>
                 (cannot be changed)
@@ -273,7 +296,9 @@ export default function EditCategoryScreen() {
           {/* Delete Button */}
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
             <Ionicons name="trash-outline" size={20} color="#FF6B6B" />
-            <ThemedText style={styles.deleteButtonText}>Delete Category</ThemedText>
+            <ThemedText style={styles.deleteButtonText}>
+              Delete Category
+            </ThemedText>
           </TouchableOpacity>
         </ScrollView>
 
@@ -306,17 +331,17 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -325,9 +350,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -336,7 +361,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   previewSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 24,
     marginBottom: 16,
   },
@@ -344,12 +369,12 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   previewName: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: 12,
     opacity: 0.8,
   },
@@ -361,7 +386,7 @@ const styles = StyleSheet.create({
   },
   typeBadgeText: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   section: {
     marginBottom: 20,
@@ -370,35 +395,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
   },
   selector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 10,
   },
   selectorIcon: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   selectorText: {
     fontSize: 14,
@@ -410,11 +435,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   readOnlyField: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
     gap: 8,
   },
   readOnlyText: {
@@ -425,19 +450,18 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   deleteButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 16,
     marginTop: 20,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+    backgroundColor: "rgba(255, 107, 107, 0.1)",
     gap: 8,
   },
   deleteButtonText: {
-    color: '#FF6B6B',
+    color: "#FF6B6B",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });
-

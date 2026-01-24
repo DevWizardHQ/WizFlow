@@ -2,7 +2,7 @@
  * CurrencyPicker - Currency selection modal
  */
 
-import React from 'react';
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,13 +10,13 @@ import {
   ScrollView,
   View,
   Pressable,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { CURRENCIES } from '@/utils/constants';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { CURRENCIES } from "@/utils/constants";
 
 interface CurrencyPickerProps {
   visible: boolean;
@@ -31,8 +31,8 @@ export function CurrencyPicker({
   onSelect,
   selectedCurrency,
 }: CurrencyPickerProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
 
   const handleSelect = (code: string) => {
     onSelect(code);
@@ -54,7 +54,10 @@ export function CurrencyPicker({
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+        >
           {CURRENCIES.map((currency) => (
             <Pressable
               key={currency.code}
@@ -93,12 +96,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   closeButton: {
     padding: 4,
@@ -110,32 +113,32 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   currencyItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 14,
     borderRadius: 12,
     marginBottom: 8,
   },
   selectedItem: {
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    backgroundColor: "rgba(76, 175, 80, 0.1)",
   },
   currencyInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   currencySymbol: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     width: 40,
-    textAlign: 'center',
+    textAlign: "center",
   },
   currencyText: {
     marginLeft: 12,
   },
   currencyCode: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   currencyName: {
     fontSize: 13,
@@ -143,4 +146,3 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 });
-

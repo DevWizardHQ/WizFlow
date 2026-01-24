@@ -2,12 +2,12 @@
  * BalanceSummary - Total balance display component
  */
 
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import { StyleSheet } from "react-native";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { CURRENCIES } from '@/utils/constants';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { CURRENCIES } from "@/utils/constants";
 
 interface BalanceSummaryProps {
   totalBalance: number;
@@ -17,13 +17,14 @@ interface BalanceSummaryProps {
 
 export function BalanceSummary({
   totalBalance,
-  currency = 'USD',
+  currency = "USD",
   accountCount,
 }: BalanceSummaryProps) {
-  const currencySymbol = CURRENCIES.find((c) => c.code === currency)?.symbol || '$';
+  const currencySymbol =
+    CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
 
   const formatBalance = (balance: number) => {
-    const prefix = balance < 0 ? '-' : '';
+    const prefix = balance < 0 ? "-" : "";
     return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
@@ -33,14 +34,14 @@ export function BalanceSummary({
       <ThemedText
         style={[
           styles.balance,
-          { color: totalBalance >= 0 ? '#4CAF50' : '#FF6B6B' },
+          { color: totalBalance >= 0 ? "#4CAF50" : "#FF6B6B" },
         ]}
       >
         {formatBalance(totalBalance)}
       </ThemedText>
       {accountCount !== undefined && (
         <ThemedText style={styles.accountCount}>
-          {accountCount} {accountCount === 1 ? 'account' : 'accounts'}
+          {accountCount} {accountCount === 1 ? "account" : "accounts"}
         </ThemedText>
       )}
     </ThemedView>
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 24,
     borderRadius: 16,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
-    alignItems: 'center',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
+    alignItems: "center",
     marginBottom: 20,
   },
   label: {
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   balance: {
     fontSize: 36,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   accountCount: {
     fontSize: 13,
@@ -70,4 +71,3 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 });
-

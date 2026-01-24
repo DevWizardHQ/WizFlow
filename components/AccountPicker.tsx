@@ -2,7 +2,7 @@
  * AccountPicker - Dropdown/Modal for selecting account
  */
 
-import React from 'react';
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,14 +10,14 @@ import {
   ScrollView,
   View,
   Pressable,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Account } from '@/types';
-import { getAllAccounts } from '@/database';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { Account } from "@/types";
+import { getAllAccounts } from "@/database";
 
 interface AccountPickerProps {
   visible: boolean;
@@ -34,8 +34,8 @@ export function AccountPicker({
   selectedAccountId,
   excludeAccountId,
 }: AccountPickerProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
   const accounts = getAllAccounts().filter((a) => a.id !== excludeAccountId);
 
   const handleSelect = (account: Account) => {
@@ -44,7 +44,7 @@ export function AccountPicker({
   };
 
   const formatBalance = (balance: number, currency: string) => {
-    const symbol = currency === 'USD' ? '$' : currency;
+    const symbol = currency === "USD" ? "$" : currency;
     return `${symbol}${balance.toFixed(2)}`;
   };
 
@@ -63,11 +63,21 @@ export function AccountPicker({
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+        >
           {accounts.length === 0 ? (
             <View style={styles.emptyState}>
-              <Ionicons name="wallet-outline" size={48} color={textColor} style={{ opacity: 0.5 }} />
-              <ThemedText style={styles.emptyText}>No accounts available</ThemedText>
+              <Ionicons
+                name="wallet-outline"
+                size={48}
+                color={textColor}
+                style={{ opacity: 0.5 }}
+              />
+              <ThemedText style={styles.emptyText}>
+                No accounts available
+              </ThemedText>
               <ThemedText style={styles.emptySubtext}>
                 Create an account first to add transactions
               </ThemedText>
@@ -83,7 +93,10 @@ export function AccountPicker({
                 onPress={() => handleSelect(account)}
               >
                 <View
-                  style={[styles.iconContainer, { backgroundColor: account.color }]}
+                  style={[
+                    styles.iconContainer,
+                    { backgroundColor: account.color },
+                  ]}
                 >
                   <Ionicons
                     name={account.icon as keyof typeof Ionicons.glyphMap}
@@ -92,7 +105,9 @@ export function AccountPicker({
                   />
                 </View>
                 <View style={styles.accountInfo}>
-                  <ThemedText style={styles.accountName}>{account.name}</ThemedText>
+                  <ThemedText style={styles.accountName}>
+                    {account.name}
+                  </ThemedText>
                   <ThemedText style={styles.accountBalance}>
                     {formatBalance(account.balance, account.currency)}
                   </ThemedText>
@@ -114,12 +129,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   closeButton: {
     padding: 4,
@@ -131,21 +146,21 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   accountItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
     marginBottom: 8,
   },
   selectedItem: {
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    backgroundColor: "rgba(76, 175, 80, 0.1)",
   },
   iconContainer: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   accountInfo: {
@@ -153,7 +168,7 @@ const styles = StyleSheet.create({
   },
   accountName: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   accountBalance: {
     fontSize: 14,
@@ -161,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   emptyState: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 40,
   },
   emptyText: {
@@ -173,7 +188,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
     opacity: 0.5,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
-

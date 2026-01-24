@@ -2,35 +2,35 @@
  * Categories Management Screen
  */
 
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, ScrollView, View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router, useFocusEffect } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useCallback } from "react";
+import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useFocusEffect } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { CategorySection } from '@/components/CategorySection';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { getCategoriesByType } from '@/database';
-import type { Category, CategoryType } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+// import { ThemedView } from '@/components/themed-view';
+import { CategorySection } from "@/components/CategorySection";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { getCategoriesByType } from "@/database";
+import type { Category, CategoryType } from "@/types";
 
 export default function CategoriesScreen() {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
 
   const [expenseCategories, setExpenseCategories] = useState<Category[]>([]);
   const [incomeCategories, setIncomeCategories] = useState<Category[]>([]);
 
   const loadCategories = useCallback(() => {
-    setExpenseCategories(getCategoriesByType('expense'));
-    setIncomeCategories(getCategoriesByType('income'));
+    setExpenseCategories(getCategoriesByType("expense"));
+    setIncomeCategories(getCategoriesByType("income"));
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       loadCategories();
-    }, [loadCategories])
+    }, [loadCategories]),
   );
 
   const handleCategoryPress = (category: Category) => {
@@ -45,19 +45,29 @@ export default function CategoriesScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.backButton}
+        >
           <Ionicons name="arrow-back" size={24} color={textColor} />
         </TouchableOpacity>
         <ThemedText type="subtitle">Categories</ThemedText>
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
         <ThemedText style={styles.description}>
-          Manage your transaction categories. Default categories cannot be edited or deleted.
+          Manage your transaction categories. Default categories cannot be
+          edited or deleted.
         </ThemedText>
 
         <CategorySection
@@ -85,13 +95,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -112,4 +122,3 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
-

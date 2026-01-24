@@ -2,30 +2,25 @@
  * Account Detail Screen - Shows account info and filtered transactions
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router, useLocalSearchParams, useFocusEffect } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useCallback, useEffect } from "react";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { AccountIcon } from '@/components/AccountIcon';
-import { TransactionList } from '@/components/TransactionList';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { getAccountById, getTransactions } from '@/database';
-import { CURRENCIES } from '@/utils/constants';
-import type { Account, Transaction } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { AccountIcon } from "@/components/AccountIcon";
+import { TransactionList } from "@/components/TransactionList";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { getAccountById, getTransactions } from "@/database";
+import { CURRENCIES } from "@/utils/constants";
+import type { Account, Transaction } from "@/types";
 
 export default function AccountDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
 
   const [account, setAccount] = useState<Account | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -37,7 +32,7 @@ export default function AccountDetailScreen() {
 
     const acct = getAccountById(parseInt(id, 10));
     if (!acct) {
-      Alert.alert('Error', 'Account not found');
+      Alert.alert("Error", "Account not found");
       router.back();
       return;
     }
@@ -57,7 +52,7 @@ export default function AccountDetailScreen() {
       if (!loading) {
         loadData();
       }
-    }, [loadData, loading])
+    }, [loadData, loading]),
   );
 
   const handleRefresh = useCallback(() => {
@@ -75,7 +70,7 @@ export default function AccountDetailScreen() {
   };
 
   const handleAddTransaction = () => {
-    router.push('/transaction/add');
+    router.push("/transaction/add");
   };
 
   if (loading || !account) {
@@ -88,20 +83,31 @@ export default function AccountDetailScreen() {
     );
   }
 
-  const currencySymbol = CURRENCIES.find((c) => c.code === account.currency)?.symbol || '$';
+  const currencySymbol =
+    CURRENCIES.find((c) => c.code === account.currency)?.symbol || "$";
   const formatBalance = (balance: number) => {
-    const prefix = balance < 0 ? '-' : '';
+    const prefix = balance < 0 ? "-" : "";
     return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.backButton}
+        >
           <Ionicons name="arrow-back" size={24} color={textColor} />
         </TouchableOpacity>
-        <ThemedText type="subtitle" numberOfLines={1} style={styles.headerTitle}>
+        <ThemedText
+          type="subtitle"
+          numberOfLines={1}
+          style={styles.headerTitle}
+        >
           {account.name}
         </ThemedText>
         <TouchableOpacity onPress={handleEditAccount} style={styles.editButton}>
@@ -116,13 +122,14 @@ export default function AccountDetailScreen() {
         <ThemedText
           style={[
             styles.accountBalance,
-            { color: account.balance >= 0 ? '#4CAF50' : '#FF6B6B' },
+            { color: account.balance >= 0 ? "#4CAF50" : "#FF6B6B" },
           ]}
         >
           {formatBalance(account.balance)}
         </ThemedText>
         <ThemedText style={styles.transactionCount}>
-          {transactions.length} {transactions.length === 1 ? 'transaction' : 'transactions'}
+          {transactions.length}{" "}
+          {transactions.length === 1 ? "transaction" : "transactions"}
         </ThemedText>
       </ThemedView>
 
@@ -158,16 +165,16 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -180,22 +187,22 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   accountCard: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 24,
     paddingHorizontal: 16,
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 16,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   accountName: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: 12,
   },
   accountBalance: {
     fontSize: 32,
-    fontWeight: '700',
+    fontWeight: "700",
     marginTop: 4,
   },
   transactionCount: {
@@ -212,19 +219,18 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     bottom: 20,
     width: 56,
     height: 56,
     borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
   },
 });
-

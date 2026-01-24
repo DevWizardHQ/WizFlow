@@ -2,25 +2,31 @@
  * Export screen
  */
 
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Button } from '@/components/Button';
-import { exportTransactionsCSV, exportAccountsCSV } from '@/services/exportService';
-import { PeriodSelector } from '@/components/PeriodSelector';
-import { getDateRange, type Period } from '@/utils/dateUtils';
+import React, { useState } from "react";
+import { View, StyleSheet, Alert } from "react-native";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { Button } from "@/components/Button";
+import {
+  exportTransactionsCSV,
+  exportAccountsCSV,
+} from "@/services/exportService";
+import { PeriodSelector } from "@/components/PeriodSelector";
+import { getDateRange, type Period } from "@/utils/dateUtils";
 
 export default function ExportScreen() {
-  const [period, setPeriod] = useState<Period>('allTime');
+  const [period, setPeriod] = useState<Period>("allTime");
 
   const handleExportTransactions = async () => {
     try {
       const { start, end } = getDateRange(period);
       await exportTransactionsCSV(start, end);
     } catch (error) {
-      console.error('Export failed:', error);
-      Alert.alert('Export Failed', 'Could not export your transactions to a CSV file.');
+      console.error("Export failed:", error);
+      Alert.alert(
+        "Export Failed",
+        "Could not export your transactions to a CSV file.",
+      );
     }
   };
 
@@ -28,18 +34,24 @@ export default function ExportScreen() {
     try {
       await exportAccountsCSV();
     } catch (error) {
-      console.error('Export failed:', error);
-      Alert.alert('Export Failed', 'Could not export your accounts to a CSV file.');
+      console.error("Export failed:", error);
+      Alert.alert(
+        "Export Failed",
+        "Could not export your accounts to a CSV file.",
+      );
     }
   };
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>Export Data</ThemedText>
+      <ThemedText type="title" style={styles.title}>
+        Export Data
+      </ThemedText>
       <View style={styles.card}>
         <ThemedText type="subtitle">Export Transactions</ThemedText>
         <ThemedText style={styles.description}>
-          Export all your transactions to a CSV file. This file can be opened in any spreadsheet software.
+          Export all your transactions to a CSV file. This file can be opened in
+          any spreadsheet software.
         </ThemedText>
         <PeriodSelector selected={period} onSelect={setPeriod} />
         <Button
@@ -76,7 +88,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   description: {
     marginBottom: 20,

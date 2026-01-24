@@ -1,4 +1,0 @@
-onlyBuiltDependencies:
-  - '@fission-ai/openspec'
-packages:
-  - .

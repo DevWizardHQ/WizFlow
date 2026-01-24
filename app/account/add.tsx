@@ -2,10 +2,10 @@
  * Add Account Screen
  */
 
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -15,45 +15,49 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AccountIcon } from '@/components/AccountIcon';
-import { AmountInput } from '@/components/AmountInput';
-import { ColorPicker } from '@/components/ColorPicker';
-import { CurrencyPicker } from '@/components/CurrencyPicker';
-import { IconPicker } from '@/components/IconPicker';
-import { ThemedText } from '@/components/themed-text';
-import { createAccount } from '@/database';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { AccountType } from '@/types';
-import { ACCOUNT_TYPES, COLOR_PALETTE, DEFAULT_CURRENCY } from '@/utils/constants';
+import { AccountIcon } from "@/components/AccountIcon";
+import { AmountInput } from "@/components/AmountInput";
+import { ColorPicker } from "@/components/ColorPicker";
+import { CurrencyPicker } from "@/components/CurrencyPicker";
+import { IconPicker } from "@/components/IconPicker";
+import { ThemedText } from "@/components/themed-text";
+import { createAccount } from "@/database";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { AccountType } from "@/types";
+import {
+  ACCOUNT_TYPES,
+  COLOR_PALETTE,
+  DEFAULT_CURRENCY,
+} from "@/utils/constants";
 
 export default function AddAccountScreen() {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   // Form state
-  const [name, setName] = useState('');
-  const [accountType, setAccountType] = useState<AccountType>('general');
-  const [icon, setIcon] = useState('wallet');
+  const [name, setName] = useState("");
+  const [accountType, setAccountType] = useState<AccountType>("general");
+  const [icon, setIcon] = useState("wallet");
   const [color, setColor] = useState<string>(COLOR_PALETTE[4]); // Blue
   const [currency, setCurrency] = useState(DEFAULT_CURRENCY);
-  const [initialBalance, setInitialBalance] = useState('');
+  const [initialBalance, setInitialBalance] = useState("");
 
   // Modal state
   const [showIconPicker, setShowIconPicker] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!name.trim()) {
-      Alert.alert('Missing Name', 'Please enter an account name');
+      Alert.alert("Missing Name", "Please enter an account name");
       return false;
     }
     return true;
-  };
+  }, [name]);
 
   const handleSave = useCallback(() => {
     if (!validateForm()) return;
@@ -74,10 +78,10 @@ export default function AddAccountScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to create account:', error);
-      Alert.alert('Error', 'Failed to create account. Please try again.');
+      console.error("Failed to create account:", error);
+      Alert.alert("Error", "Failed to create account. Please try again.");
     }
-  }, [name, accountType, icon, color, currency, initialBalance]);
+  }, [name, accountType, icon, color, currency, initialBalance, validateForm]);
 
   const handleTypeSelect = (type: AccountType) => {
     setAccountType(type);
@@ -90,14 +94,20 @@ export default function AddAccountScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Add Account</ThemedText>
@@ -106,12 +116,15 @@ export default function AddAccountScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Preview */}
           <View style={styles.previewSection}>
             <AccountIcon icon={icon} color={color} size="large" />
             <ThemedText style={styles.previewName}>
-              {name || 'Account Name'}
+              {name || "Account Name"}
             </ThemedText>
           </View>
 
@@ -181,7 +194,9 @@ export default function AddAccountScreen() {
                 style={styles.selector}
                 onPress={() => setShowColorPicker(true)}
               >
-                <View style={[styles.colorPreview, { backgroundColor: color }]} />
+                <View
+                  style={[styles.colorPreview, { backgroundColor: color }]}
+                />
                 <ThemedText style={styles.selectorText}>Change</ThemedText>
               </TouchableOpacity>
             </View>
@@ -195,13 +210,19 @@ export default function AddAccountScreen() {
               onPress={() => setShowCurrencyPicker(true)}
             >
               <ThemedText style={styles.currencyText}>{currency}</ThemedText>
-              <Ionicons name="chevron-forward" size={20} color={placeholderColor} />
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={placeholderColor}
+              />
             </TouchableOpacity>
           </View>
 
           {/* Initial Balance */}
           <View style={styles.section}>
-            <ThemedText style={styles.label}>Initial Balance (Optional)</ThemedText>
+            <ThemedText style={styles.label}>
+              Initial Balance (Optional)
+            </ThemedText>
             <AmountInput
               value={initialBalance}
               onChangeText={setInitialBalance}
@@ -246,13 +267,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -261,9 +282,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -272,13 +293,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   previewSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 24,
     marginBottom: 16,
   },
   previewName: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: 12,
     opacity: 0.8,
   },
@@ -289,50 +310,50 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
   },
   typeGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
   },
   typeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     gap: 6,
   },
   typeButtonActive: {
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   typeButtonText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   selector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 10,
   },
   selectorText: {
@@ -345,16 +366,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   fullSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   currencyText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });
-

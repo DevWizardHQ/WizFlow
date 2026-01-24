@@ -2,15 +2,15 @@
  * CategorySection - Section with header and list of categories
  */
 
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { CategoryItem } from '@/components/CategoryItem';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Category, CategoryType } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { CategoryItem } from "@/components/CategoryItem";
+// import { useThemeColor } from '@/hooks/use-theme-color';
+import type { Category, CategoryType } from "@/types";
 
 interface CategorySectionProps {
   title: string;
@@ -27,7 +27,7 @@ export function CategorySection({
   onCategoryPress,
   onAddPress,
 }: CategorySectionProps) {
-  const textColor = useThemeColor({}, 'text');
+  //   const textColor = useThemeColor({}, 'text');
 
   return (
     <ThemedView style={styles.container}>
@@ -64,41 +64,40 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 24,
     borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: 'rgba(128, 128, 128, 0.03)',
+    overflow: "hidden",
+    backgroundColor: "rgba(128, 128, 128, 0.03)",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   title: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   addButtonText: {
     fontSize: 14,
-    color: '#4CAF50',
-    fontWeight: '500',
+    color: "#4CAF50",
+    fontWeight: "500",
   },
   list: {
     // List container
   },
   emptyState: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   emptyText: {
     fontSize: 14,
     opacity: 0.5,
   },
 });
-

@@ -2,14 +2,14 @@
  * AccountIcon - Icon with colored background for accounts
  */
 
-import React from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, View, ViewStyle } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface AccountIconProps {
   icon: string;
   color: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   style?: ViewStyle;
 }
 
@@ -22,7 +22,7 @@ const SIZES = {
 export function AccountIcon({
   icon,
   color,
-  size = 'medium',
+  size = "medium",
   style,
 }: AccountIconProps) {
   const dimensions = SIZES[size];
@@ -51,8 +51,7 @@ export function AccountIcon({
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
-

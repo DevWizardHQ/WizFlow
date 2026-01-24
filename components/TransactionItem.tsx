@@ -2,41 +2,40 @@
  * TransactionItem - Single transaction row component
  */
 
-import React from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { format } from 'date-fns';
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+// import { format } from 'date-fns';
 
-import { ThemedText } from '@/components/themed-text';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Transaction } from '@/types';
-import { getCategoryByName } from '@/database';
-import { CURRENCIES } from '@/utils/constants';
+import { ThemedText } from "@/components/themed-text";
+// import { useThemeColor } from '@/hooks/use-theme-color';
+import type { Transaction } from "@/types";
+import { getCategoryByName } from "@/database";
+// import { CURRENCIES } from '@/utils/constants';
 
 interface TransactionItemProps {
   transaction: Transaction;
   onPress?: (transaction: Transaction) => void;
 }
 
-export function TransactionItem({ transaction, onPress }: TransactionItemProps) {
-  const textColor = useThemeColor({}, 'text');
+export function TransactionItem({
+  transaction,
+  onPress,
+}: TransactionItemProps) {
+  //   const textColor = useThemeColor({}, 'text');
   const category = getCategoryByName(transaction.category);
 
-  const isIncome = transaction.type === 'income';
-  const isTransfer = transaction.type === 'transfer';
-  const amountColor = isIncome ? '#4CAF50' : isTransfer ? '#36A2EB' : '#FF6B6B';
-  const amountPrefix = isIncome ? '+' : isTransfer ? '' : '-';
+  const isIncome = transaction.type === "income";
+  const isTransfer = transaction.type === "transfer";
+  const amountColor = isIncome ? "#4CAF50" : isTransfer ? "#36A2EB" : "#FF6B6B";
+  const amountPrefix = isIncome ? "+" : isTransfer ? "" : "-";
 
   const formatAmount = (amount: number) => {
     return `${amountPrefix}$${Math.abs(amount).toFixed(2)}`;
   };
 
-  const categoryIcon = category?.icon || 'help-circle';
-  const categoryColor = category?.color || '#607D8B';
+  const categoryIcon = category?.icon || "help-circle";
+  const categoryColor = category?.color || "#607D8B";
 
   return (
     <TouchableOpacity
@@ -78,8 +77,8 @@ export function TransactionItem({ transaction, onPress }: TransactionItemProps) 
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
@@ -87,31 +86,31 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   content: {
     flex: 1,
   },
   mainRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     flex: 1,
     marginRight: 8,
   },
   amount: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   subRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 4,
   },
   category: {
@@ -125,4 +124,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-

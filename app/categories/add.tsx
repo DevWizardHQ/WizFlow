@@ -2,10 +2,10 @@
  * Add Category Screen
  */
 
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
-import { router, useLocalSearchParams } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -15,28 +15,28 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { CategoryIconPicker } from '@/components/CategoryIconPicker';
-import { ColorPicker } from '@/components/ColorPicker';
-import { ThemedText } from '@/components/themed-text';
-import { createCategory } from '@/database';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { CategoryType } from '@/types';
-import { DEFAULT_CATEGORY_ICON } from '@/utils/categoryIcons';
-import { COLOR_PALETTE } from '@/utils/constants';
+import { CategoryIconPicker } from "@/components/CategoryIconPicker";
+import { ColorPicker } from "@/components/ColorPicker";
+import { ThemedText } from "@/components/themed-text";
+import { createCategory } from "@/database";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { CategoryType } from "@/types";
+import { DEFAULT_CATEGORY_ICON } from "@/utils/categoryIcons";
+import { COLOR_PALETTE } from "@/utils/constants";
 
 export default function AddCategoryScreen() {
   const { type: initialType } = useLocalSearchParams<{ type: string }>();
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   // Form state
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [type, setType] = useState<CategoryType>(
-    (initialType as CategoryType) || 'expense'
+    (initialType as CategoryType) || "expense",
   );
   const [icon, setIcon] = useState(DEFAULT_CATEGORY_ICON);
   const [color, setColor] = useState<string>(COLOR_PALETTE[0]);
@@ -45,13 +45,13 @@ export default function AddCategoryScreen() {
   const [showIconPicker, setShowIconPicker] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!name.trim()) {
-      Alert.alert('Missing Name', 'Please enter a category name');
+      Alert.alert("Missing Name", "Please enter a category name");
       return false;
     }
     return true;
-  };
+  }, [name]);
 
   const handleSave = useCallback(() => {
     if (!validateForm()) return;
@@ -69,28 +69,34 @@ export default function AddCategoryScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to create category:', error);
-      Alert.alert('Error', 'Failed to create category. Please try again.');
+      console.error("Failed to create category:", error);
+      Alert.alert("Error", "Failed to create category. Please try again.");
     }
-  }, [name, icon, color, type]);
+  }, [validateForm, name, icon, color, type]);
 
   const handleTypeToggle = (newType: CategoryType) => {
     setType(newType);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
-  const isExpense = type === 'expense';
-  const isIncome = type === 'income';
+  const isExpense = type === "expense";
+  const isIncome = type === "income";
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Add Category</ThemedText>
@@ -99,7 +105,10 @@ export default function AddCategoryScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Preview */}
           <View style={styles.previewSection}>
             <View style={[styles.previewIcon, { backgroundColor: color }]}>
@@ -110,15 +119,27 @@ export default function AddCategoryScreen() {
               />
             </View>
             <ThemedText style={styles.previewName}>
-              {name || 'Category Name'}
+              {name || "Category Name"}
             </ThemedText>
-            <View style={[styles.typeBadge, {
-              backgroundColor: isExpense ? 'rgba(255, 107, 107, 0.2)' : 'rgba(76, 175, 80, 0.2)'
-            }]}>
-              <ThemedText style={[styles.typeBadgeText, {
-                color: isExpense ? '#FF6B6B' : '#4CAF50'
-              }]}>
-                {isExpense ? 'Expense' : 'Income'}
+            <View
+              style={[
+                styles.typeBadge,
+                {
+                  backgroundColor: isExpense
+                    ? "rgba(255, 107, 107, 0.2)"
+                    : "rgba(76, 175, 80, 0.2)",
+                },
+              ]}
+            >
+              <ThemedText
+                style={[
+                  styles.typeBadgeText,
+                  {
+                    color: isExpense ? "#FF6B6B" : "#4CAF50",
+                  },
+                ]}
+              >
+                {isExpense ? "Expense" : "Income"}
               </ThemedText>
             </View>
           </View>
@@ -131,14 +152,14 @@ export default function AddCategoryScreen() {
                 style={[
                   styles.typeButton,
                   isExpense && styles.typeButtonActive,
-                  isExpense && { backgroundColor: '#FF6B6B' },
+                  isExpense && { backgroundColor: "#FF6B6B" },
                 ]}
-                onPress={() => handleTypeToggle('expense')}
+                onPress={() => handleTypeToggle("expense")}
               >
                 <Ionicons
                   name="arrow-up"
                   size={18}
-                  color={isExpense ? '#fff' : textColor}
+                  color={isExpense ? "#fff" : textColor}
                 />
                 <ThemedText
                   style={[
@@ -153,14 +174,14 @@ export default function AddCategoryScreen() {
                 style={[
                   styles.typeButton,
                   isIncome && styles.typeButtonActive,
-                  isIncome && { backgroundColor: '#4CAF50' },
+                  isIncome && { backgroundColor: "#4CAF50" },
                 ]}
-                onPress={() => handleTypeToggle('income')}
+                onPress={() => handleTypeToggle("income")}
               >
                 <Ionicons
                   name="arrow-down"
                   size={18}
-                  color={isIncome ? '#fff' : textColor}
+                  color={isIncome ? "#fff" : textColor}
                 />
                 <ThemedText
                   style={[
@@ -214,7 +235,9 @@ export default function AddCategoryScreen() {
                 style={styles.selector}
                 onPress={() => setShowColorPicker(true)}
               >
-                <View style={[styles.colorPreview, { backgroundColor: color }]} />
+                <View
+                  style={[styles.colorPreview, { backgroundColor: color }]}
+                />
                 <ThemedText style={styles.selectorText}>Change</ThemedText>
               </TouchableOpacity>
             </View>
@@ -249,13 +272,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -264,9 +287,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -275,7 +298,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   previewSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 24,
     marginBottom: 16,
   },
@@ -283,12 +306,12 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   previewName: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: 12,
     opacity: 0.8,
   },
@@ -300,7 +323,7 @@ const styles = StyleSheet.create({
   },
   typeBadgeText: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   section: {
     marginBottom: 20,
@@ -309,59 +332,59 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
   },
   typeToggle: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   typeButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 6,
   },
   typeButtonActive: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
   },
   typeButtonText: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   typeButtonTextActive: {
-    color: '#fff',
+    color: "#fff",
   },
   selector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 10,
   },
   selectorIcon: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   selectorText: {
     fontSize: 14,
@@ -373,4 +396,3 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 });
-

@@ -2,17 +2,17 @@
  * AmountInput - Currency-aware amount input component
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useRef } from "react";
 import {
   StyleSheet,
   TextInput,
-  View,
+  //   View,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 
-import { ThemedText } from '@/components/themed-text';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { CURRENCIES } from '@/utils/constants';
+import { ThemedText } from "@/components/themed-text";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { CURRENCIES } from "@/utils/constants";
 
 interface AmountInputProps {
   value: string;
@@ -25,29 +25,30 @@ interface AmountInputProps {
 export function AmountInput({
   value,
   onChangeText,
-  currency = 'USD',
-  placeholder = '0.00',
+  currency = "USD",
+  placeholder = "0.00",
   autoFocus = false,
 }: AmountInputProps) {
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
   const inputRef = useRef<TextInput>(null);
 
-  const currencySymbol = CURRENCIES.find((c) => c.code === currency)?.symbol || '$';
+  const currencySymbol =
+    CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
 
   const handleChangeText = (text: string) => {
     // Remove non-numeric characters except decimal point
-    let cleaned = text.replace(/[^0-9.]/g, '');
+    let cleaned = text.replace(/[^0-9.]/g, "");
 
     // Ensure only one decimal point
-    const parts = cleaned.split('.');
+    const parts = cleaned.split(".");
     if (parts.length > 2) {
-      cleaned = parts[0] + '.' + parts.slice(1).join('');
+      cleaned = parts[0] + "." + parts.slice(1).join("");
     }
 
     // Limit to 2 decimal places
     if (parts.length === 2 && parts[1].length > 2) {
-      cleaned = parts[0] + '.' + parts[1].slice(0, 2);
+      cleaned = parts[0] + "." + parts[1].slice(0, 2);
     }
 
     onChangeText(cleaned);
@@ -58,7 +59,11 @@ export function AmountInput({
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={focusInput} activeOpacity={1}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={focusInput}
+      activeOpacity={1}
+    >
       <ThemedText style={styles.currencySymbol}>{currencySymbol}</ThemedText>
       <TextInput
         ref={inputRef}
@@ -77,24 +82,23 @@ export function AmountInput({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   currencySymbol: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     marginRight: 8,
     opacity: 0.7,
   },
   input: {
     flex: 1,
     fontSize: 32,
-    fontWeight: '600',
+    fontWeight: "600",
     padding: 0,
   },
 });
-

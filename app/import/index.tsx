@@ -2,17 +2,23 @@
  * Import screen
  */
 
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Button } from '@/components/Button';
-import { previewTransactionsFromCSV, importTransactions } from '@/services/importService';
-import type { CreateTransactionInput } from '@/types';
+import React, { useState } from "react";
+import { View, StyleSheet, Alert, ScrollView } from "react-native";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { Button } from "@/components/Button";
+import {
+  previewTransactionsFromCSV,
+  importTransactions,
+} from "@/services/importService";
+import type { CreateTransactionInput } from "@/types";
 
 export default function ImportScreen() {
   const [isImporting, setIsImporting] = useState(false);
-  const [preview, setPreview] = useState<{ transactionsToInsert: CreateTransactionInput[], parsedData: any[] } | null>(null);
+  const [preview, setPreview] = useState<{
+    transactionsToInsert: CreateTransactionInput[];
+    parsedData: any[];
+  } | null>(null);
 
   const handlePreview = async () => {
     setIsImporting(true);
@@ -20,8 +26,8 @@ export default function ImportScreen() {
       const previewData = await previewTransactionsFromCSV();
       setPreview(previewData);
     } catch (error) {
-      console.error('Preview failed:', error);
-      Alert.alert('Preview Failed', 'Could not preview the selected file.');
+      console.error("Preview failed:", error);
+      Alert.alert("Preview Failed", "Could not preview the selected file.");
     } finally {
       setIsImporting(false);
     }
@@ -33,11 +39,17 @@ export default function ImportScreen() {
     setIsImporting(true);
     try {
       await importTransactions(preview.transactionsToInsert);
-      Alert.alert('Import Complete', 'Your transactions have been successfully imported.');
+      Alert.alert(
+        "Import Complete",
+        "Your transactions have been successfully imported.",
+      );
       setPreview(null);
     } catch (error) {
-      console.error('Import failed:', error);
-      Alert.alert('Import Failed', 'Could not import transactions from the selected file.');
+      console.error("Import failed:", error);
+      Alert.alert(
+        "Import Failed",
+        "Could not import transactions from the selected file.",
+      );
     } finally {
       setIsImporting(false);
     }
@@ -45,11 +57,14 @@ export default function ImportScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>Import Data</ThemedText>
+      <ThemedText type="title" style={styles.title}>
+        Import Data
+      </ThemedText>
       <View style={styles.card}>
         <ThemedText type="subtitle">Import Transactions from CSV</ThemedText>
         <ThemedText style={styles.description}>
-          Import transactions from a CSV file. Make sure the file is formatted correctly.
+          Import transactions from a CSV file. Make sure the file is formatted
+          correctly.
         </ThemedText>
         <Button
           title="Select CSV for Preview"
@@ -62,7 +77,9 @@ export default function ImportScreen() {
       {preview && (
         <View style={[styles.card, { marginTop: 20 }]}>
           <ThemedText type="subtitle">Preview</ThemedText>
-          <ThemedText style={{ marginBottom: 10 }}>{`Found ${preview.transactionsToInsert.length} valid transactions to import.`}</ThemedText>
+          <ThemedText
+            style={{ marginBottom: 10 }}
+          >{`Found ${preview.transactionsToInsert.length} valid transactions to import.`}</ThemedText>
           <ScrollView style={{ maxHeight: 300 }}>
             {preview.parsedData.slice(0, 5).map((row, index) => (
               <View key={index} style={styles.previewRow}>
@@ -95,7 +112,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   description: {
     marginBottom: 20,
@@ -103,10 +120,10 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   previewRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 5,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(128, 128, 128, 0.2)',
+    borderBottomColor: "rgba(128, 128, 128, 0.2)",
   },
 });

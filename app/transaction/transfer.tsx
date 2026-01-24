@@ -2,7 +2,7 @@
  * Transfer Screen - Transfer funds between accounts
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -12,69 +12,75 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { format } from 'date-fns';
-import * as Haptics from 'expo-haptics';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { format } from "date-fns";
+import * as Haptics from "expo-haptics";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { AmountInput } from '@/components/AmountInput';
-import { AccountPicker } from '@/components/AccountPicker';
-import { AccountIcon } from '@/components/AccountIcon';
-import { DatePickerButton } from '@/components/DatePickerButton';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { createTransaction, getAllAccounts } from '@/database';
-import type { Account } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+// import { ThemedView } from '@/components/themed-view';
+import { AmountInput } from "@/components/AmountInput";
+import { AccountPicker } from "@/components/AccountPicker";
+import { AccountIcon } from "@/components/AccountIcon";
+import { DatePickerButton } from "@/components/DatePickerButton";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { createTransaction, getAllAccounts } from "@/database";
+import type { Account } from "@/types";
 
 export default function TransferScreen() {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   const accounts = getAllAccounts();
 
   // Form state
   const [fromAccount, setFromAccount] = useState<Account | null>(
-    accounts.length > 0 ? accounts[0] : null
+    accounts.length > 0 ? accounts[0] : null,
   );
   const [toAccount, setToAccount] = useState<Account | null>(null);
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
   const [date, setDate] = useState(new Date());
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState("");
 
   // Modal state
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [showToPicker, setShowToPicker] = useState(false);
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!fromAccount) {
-      Alert.alert('Missing Account', 'Please select a source account');
+      Alert.alert("Missing Account", "Please select a source account");
       return false;
     }
     if (!toAccount) {
-      Alert.alert('Missing Account', 'Please select a destination account');
+      Alert.alert("Missing Account", "Please select a destination account");
       return false;
     }
     if (fromAccount.id === toAccount.id) {
-      Alert.alert('Invalid Transfer', 'Source and destination accounts must be different');
+      Alert.alert(
+        "Invalid Transfer",
+        "Source and destination accounts must be different",
+      );
       return false;
     }
     if (!amount || parseFloat(amount) <= 0) {
-      Alert.alert('Invalid Amount', 'Please enter a valid amount');
+      Alert.alert("Invalid Amount", "Please enter a valid amount");
       return false;
     }
-    if (parseFloat(amount) > fromAccount.balance && fromAccount.type !== 'credit') {
+    if (
+      parseFloat(amount) > fromAccount.balance &&
+      fromAccount.type !== "credit"
+    ) {
       Alert.alert(
-        'Insufficient Balance',
-        `The source account only has ${fromAccount.currency} ${fromAccount.balance.toFixed(2)}`
+        "Insufficient Balance",
+        `The source account only has ${fromAccount.currency} ${fromAccount.balance.toFixed(2)}`,
       );
       return false;
     }
     return true;
-  };
+  }, [fromAccount, toAccount, amount]);
 
   const handleSave = useCallback(() => {
     if (!validateForm()) return;
@@ -83,25 +89,25 @@ export default function TransferScreen() {
       createTransaction({
         title: `Transfer to ${toAccount!.name}`,
         amount: parseFloat(amount),
-        type: 'transfer',
+        type: "transfer",
         account_id: fromAccount!.id,
         to_account_id: toAccount!.id,
-        category: 'Transfer',
+        category: "Transfer",
         tags: null,
         note: note || null,
         attachment_uri: null,
         location_lat: null,
         location_lng: null,
-        date: format(date, 'yyyy-MM-dd'),
+        date: format(date, "yyyy-MM-dd"),
       });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to create transfer:', error);
-      Alert.alert('Error', 'Failed to complete transfer. Please try again.');
+      console.error("Failed to create transfer:", error);
+      Alert.alert("Error", "Failed to complete transfer. Please try again.");
     }
-  }, [fromAccount, toAccount, amount, date, note]);
+  }, [validateForm, fromAccount, toAccount, amount, date, note]);
 
   const swapAccounts = () => {
     const temp = fromAccount;
@@ -111,14 +117,20 @@ export default function TransferScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Transfer</ThemedText>
@@ -127,13 +139,16 @@ export default function TransferScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Amount */}
           <View style={styles.amountSection}>
             <AmountInput
               value={amount}
               onChangeText={setAmount}
-              currency={fromAccount?.currency || 'USD'}
+              currency={fromAccount?.currency || "USD"}
               autoFocus
             />
           </View>
@@ -164,11 +179,20 @@ export default function TransferScreen() {
                     </View>
                   </>
                 ) : (
-                  <ThemedText style={[styles.placeholderText, { color: placeholderColor }]}>
+                  <ThemedText
+                    style={[
+                      styles.placeholderText,
+                      { color: placeholderColor },
+                    ]}
+                  >
                     Select source account
                   </ThemedText>
                 )}
-                <Ionicons name="chevron-forward" size={20} color={placeholderColor} />
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={placeholderColor}
+                />
               </TouchableOpacity>
             </View>
 
@@ -201,11 +225,20 @@ export default function TransferScreen() {
                     </View>
                   </>
                 ) : (
-                  <ThemedText style={[styles.placeholderText, { color: placeholderColor }]}>
+                  <ThemedText
+                    style={[
+                      styles.placeholderText,
+                      { color: placeholderColor },
+                    ]}
+                  >
                     Select destination account
                   </ThemedText>
                 )}
-                <Ionicons name="chevron-forward" size={20} color={placeholderColor} />
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={placeholderColor}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -259,13 +292,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -274,9 +307,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -295,16 +328,16 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   accountSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   accountInfo: {
     flex: 1,
@@ -312,7 +345,7 @@ const styles = StyleSheet.create({
   },
   accountName: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   accountBalance: {
     fontSize: 13,
@@ -324,27 +357,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   swapButton: {
-    alignSelf: 'center',
+    alignSelf: "center",
     padding: 8,
     marginVertical: 4,
     borderRadius: 20,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   section: {
     marginBottom: 20,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
     minHeight: 60,
   },
 });
-
