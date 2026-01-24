@@ -2,16 +2,16 @@
  * AccountCard - Card component displaying account info and balance
  */
 
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { AccountIcon } from '@/components/AccountIcon';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Account } from '@/types';
-import { CURRENCIES } from '@/utils/constants';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { AccountIcon } from "@/components/AccountIcon";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { Account } from "@/types";
+import { CURRENCIES } from "@/utils/constants";
 
 interface AccountCardProps {
   account: Account;
@@ -19,23 +19,28 @@ interface AccountCardProps {
   onLongPress?: (account: Account) => void;
 }
 
-export function AccountCard({ account, onPress, onLongPress }: AccountCardProps) {
-  const textColor = useThemeColor({}, 'text');
+export function AccountCard({
+  account,
+  onPress,
+  onLongPress,
+}: AccountCardProps) {
+  const textColor = useThemeColor({}, "text");
 
-  const currencySymbol = CURRENCIES.find((c) => c.code === account.currency)?.symbol || '$';
+  const currencySymbol =
+    CURRENCIES.find((c) => c.code === account.currency)?.symbol || "$";
 
   const formatBalance = (balance: number) => {
-    const prefix = balance < 0 ? '-' : '';
+    const prefix = balance < 0 ? "-" : "";
     return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
   const getAccountTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
-      general: 'General',
-      cash: 'Cash',
-      bank: 'Bank Account',
-      credit: 'Credit Card',
-      investment: 'Investment',
+      general: "General",
+      cash: "Cash",
+      bank: "Bank Account",
+      credit: "Credit Card",
+      investment: "Investment",
     };
     return labels[type] || type;
   };
@@ -48,7 +53,11 @@ export function AccountCard({ account, onPress, onLongPress }: AccountCardProps)
     >
       <ThemedView style={styles.card}>
         <View style={styles.leftSection}>
-          <AccountIcon icon={account.icon} color={account.color} size="medium" />
+          <AccountIcon
+            icon={account.icon}
+            color={account.color}
+            size="medium"
+          />
           <View style={styles.info}>
             <ThemedText style={styles.name} numberOfLines={1}>
               {account.name}
@@ -63,7 +72,7 @@ export function AccountCard({ account, onPress, onLongPress }: AccountCardProps)
           <ThemedText
             style={[
               styles.balance,
-              { color: account.balance >= 0 ? '#4CAF50' : '#FF6B6B' },
+              { color: account.balance >= 0 ? "#4CAF50" : "#FF6B6B" },
             ]}
           >
             {formatBalance(account.balance)}
@@ -82,17 +91,17 @@ export function AccountCard({ account, onPress, onLongPress }: AccountCardProps)
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   leftSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   info: {
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   type: {
     fontSize: 13,
@@ -109,13 +118,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   rightSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   balance: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
-

@@ -2,7 +2,7 @@
  * IconPicker - Icon selection grid modal
  */
 
-import React from 'react';
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,31 +10,56 @@ import {
   ScrollView,
   View,
   Pressable,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
 
 // Curated list of icons for accounts
 const ACCOUNT_ICONS = [
   // Money & Finance
-  'wallet', 'cash', 'card', 'business', 'briefcase',
+  "wallet",
+  "cash",
+  "card",
+  "business",
+  "briefcase",
   // Banks & Institutions
-  'home', 'storefront', 'globe', 'server',
+  "home",
+  "storefront",
+  "globe",
+  "server",
   // Investment & Growth
-  'trending-up', 'bar-chart', 'stats-chart', 'pie-chart',
+  "trending-up",
+  "bar-chart",
+  "stats-chart",
+  "pie-chart",
   // Savings & Goals
-  'shield-checkmark', 'diamond', 'star', 'trophy',
+  "shield-checkmark",
+  "diamond",
+  "star",
+  "trophy",
   // Digital & Crypto
-  'logo-bitcoin', 'phone-portrait', 'laptop', 'desktop',
+  "logo-bitcoin",
+  "phone-portrait",
+  "laptop",
+  "desktop",
   // Travel & Transport
-  'airplane', 'car', 'boat', 'train',
+  "airplane",
+  "car",
+  "boat",
+  "train",
   // Shopping
-  'cart', 'bag', 'gift', 'pricetag',
+  "cart",
+  "bag",
+  "gift",
+  "pricetag",
   // Other
-  'people', 'person', 'heart', 'cube',
+  "people",
+  "person",
+  "heart",
+  "cube",
 ];
 
 interface IconPickerProps {
@@ -50,10 +75,10 @@ export function IconPicker({
   onClose,
   onSelect,
   selectedIcon,
-  selectedColor = '#4CAF50',
+  selectedColor = "#4CAF50",
 }: IconPickerProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
 
   const handleSelect = (icon: string) => {
     onSelect(icon);
@@ -90,14 +115,16 @@ export function IconPicker({
                   styles.iconContainer,
                   {
                     backgroundColor:
-                      selectedIcon === icon ? selectedColor : 'rgba(128, 128, 128, 0.1)',
+                      selectedIcon === icon
+                        ? selectedColor
+                        : "rgba(128, 128, 128, 0.1)",
                   },
                 ]}
               >
                 <Ionicons
                   name={icon as keyof typeof Ionicons.glyphMap}
                   size={28}
-                  color={selectedIcon === icon ? '#fff' : textColor}
+                  color={selectedIcon === icon ? "#fff" : textColor}
                 />
               </View>
             </Pressable>
@@ -113,12 +140,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   closeButton: {
     padding: 4,
@@ -127,17 +154,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     padding: 16,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   iconItem: {
-    width: '20%',
+    width: "20%",
     aspectRatio: 1,
     padding: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   selectedItem: {
     // Selected styling handled by iconContainer
@@ -146,8 +173,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
-

@@ -2,7 +2,7 @@
  * Add Transaction Screen
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -12,71 +12,73 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { format } from 'date-fns';
-import * as Haptics from 'expo-haptics';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { format } from "date-fns";
+import * as Haptics from "expo-haptics";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { AmountInput } from '@/components/AmountInput';
-import { CategoryPicker } from '@/components/CategoryPicker';
-import { AccountPicker } from '@/components/AccountPicker';
-import { DatePickerButton } from '@/components/DatePickerButton';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { createTransaction, getAllAccounts } from '@/database';
-import type { Account, Category, TransactionType, CategoryType } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+// import { ThemedView } from '@/components/themed-view';
+import { AmountInput } from "@/components/AmountInput";
+import { CategoryPicker } from "@/components/CategoryPicker";
+import { AccountPicker } from "@/components/AccountPicker";
+import { DatePickerButton } from "@/components/DatePickerButton";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { createTransaction, getAllAccounts } from "@/database";
+import type { Account, Category, TransactionType, CategoryType } from "@/types";
 
 export default function AddTransactionScreen() {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   // Form state
-  const [type, setType] = useState<TransactionType>('expense');
-  const [amount, setAmount] = useState('');
-  const [title, setTitle] = useState('');
+  const [type, setType] = useState<TransactionType>("expense");
+  const [amount, setAmount] = useState("");
+  const [title, setTitle] = useState("");
   const [category, setCategory] = useState<Category | null>(null);
   const [account, setAccount] = useState<Account | null>(() => {
     const accounts = getAllAccounts();
     return accounts.length > 0 ? accounts[0] : null;
   });
   const [date, setDate] = useState(new Date());
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState("");
 
   // Modal state
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
   const [showAccountPicker, setShowAccountPicker] = useState(false);
 
-  const categoryType: CategoryType = type === 'income' ? 'income' : 'expense';
+  const categoryType: CategoryType = type === "income" ? "income" : "expense";
 
   const handleTypeChange = (newType: TransactionType) => {
     setType(newType);
     // Reset category when type changes
-    if ((newType === 'income' && category?.type === 'expense') ||
-        (newType === 'expense' && category?.type === 'income')) {
+    if (
+      (newType === "income" && category?.type === "expense") ||
+      (newType === "expense" && category?.type === "income")
+    ) {
       setCategory(null);
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!amount || parseFloat(amount) <= 0) {
-      Alert.alert('Invalid Amount', 'Please enter a valid amount');
+      Alert.alert("Invalid Amount", "Please enter a valid amount");
       return false;
     }
     if (!category) {
-      Alert.alert('Missing Category', 'Please select a category');
+      Alert.alert("Missing Category", "Please select a category");
       return false;
     }
     if (!account) {
-      Alert.alert('Missing Account', 'Please select an account');
+      Alert.alert("Missing Account", "Please select an account");
       return false;
     }
     return true;
-  };
+  }, [amount, category, account]);
 
   const handleSave = useCallback(() => {
     if (!validateForm()) return;
@@ -94,29 +96,35 @@ export default function AddTransactionScreen() {
         attachment_uri: null,
         location_lat: null,
         location_lng: null,
-        date: format(date, 'yyyy-MM-dd'),
+        date: format(date, "yyyy-MM-dd"),
       });
 
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to create transaction:', error);
-      Alert.alert('Error', 'Failed to save transaction. Please try again.');
+      console.error("Failed to create transaction:", error);
+      Alert.alert("Error", "Failed to save transaction. Please try again.");
     }
-  }, [amount, title, category, account, date, note, type]);
+  }, [validateForm, amount, title, category, account, date, note, type]);
 
-  const isExpense = type === 'expense';
-  const isIncome = type === 'income';
+  const isExpense = type === "expense";
+  const isIncome = type === "income";
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Add Transaction</ThemedText>
@@ -125,21 +133,24 @@ export default function AddTransactionScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Type Toggle */}
           <View style={styles.typeToggle}>
             <TouchableOpacity
               style={[
                 styles.typeButton,
                 isExpense && styles.typeButtonActive,
-                isExpense && { backgroundColor: '#FF6B6B' },
+                isExpense && { backgroundColor: "#FF6B6B" },
               ]}
-              onPress={() => handleTypeChange('expense')}
+              onPress={() => handleTypeChange("expense")}
             >
               <Ionicons
                 name="arrow-up"
                 size={18}
-                color={isExpense ? '#fff' : textColor}
+                color={isExpense ? "#fff" : textColor}
               />
               <ThemedText
                 style={[
@@ -154,14 +165,14 @@ export default function AddTransactionScreen() {
               style={[
                 styles.typeButton,
                 isIncome && styles.typeButtonActive,
-                isIncome && { backgroundColor: '#4CAF50' },
+                isIncome && { backgroundColor: "#4CAF50" },
               ]}
-              onPress={() => handleTypeChange('income')}
+              onPress={() => handleTypeChange("income")}
             >
               <Ionicons
                 name="arrow-down"
                 size={18}
-                color={isIncome ? '#fff' : textColor}
+                color={isIncome ? "#fff" : textColor}
               />
               <ThemedText
                 style={[
@@ -180,7 +191,7 @@ export default function AddTransactionScreen() {
             <AmountInput
               value={amount}
               onChangeText={setAmount}
-              currency={account?.currency || 'USD'}
+              currency={account?.currency || "USD"}
               autoFocus
             />
           </View>
@@ -211,11 +222,17 @@ export default function AddTransactionScreen() {
                   </ThemedText>
                 </View>
               ) : (
-                <ThemedText style={[styles.selectorText, { color: placeholderColor }]}>
+                <ThemedText
+                  style={[styles.selectorText, { color: placeholderColor }]}
+                >
                   Select category
                 </ThemedText>
               )}
-              <Ionicons name="chevron-forward" size={20} color={placeholderColor} />
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={placeholderColor}
+              />
             </TouchableOpacity>
           </View>
 
@@ -245,21 +262,24 @@ export default function AddTransactionScreen() {
                   </ThemedText>
                 </View>
               ) : (
-                <ThemedText style={[styles.selectorText, { color: placeholderColor }]}>
+                <ThemedText
+                  style={[styles.selectorText, { color: placeholderColor }]}
+                >
                   Select account
                 </ThemedText>
               )}
-              <Ionicons name="chevron-forward" size={20} color={placeholderColor} />
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={placeholderColor}
+              />
             </TouchableOpacity>
           </View>
 
           {/* Date */}
           <View style={styles.section}>
             <ThemedText style={styles.label}>Date</ThemedText>
-            <DatePickerButton
-              value={date}
-              onChange={setDate}
-            />
+            <DatePickerButton value={date} onChange={setDate} />
           </View>
 
           {/* Title */}
@@ -318,13 +338,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -333,9 +353,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -344,57 +364,57 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   typeToggle: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
     marginBottom: 24,
   },
   typeButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 6,
   },
   typeButtonActive: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
   },
   typeButtonText: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   typeButtonTextActive: {
-    color: '#fff',
+    color: "#fff",
   },
   section: {
     marginBottom: 20,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   selector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
   },
   selectorContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   categoryIcon: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   selectorText: {
@@ -403,12 +423,11 @@ const styles = StyleSheet.create({
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
   },
   noteInput: {
     minHeight: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 });
-

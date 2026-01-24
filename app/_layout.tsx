@@ -1,19 +1,23 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { useColorScheme as useSystemColorScheme } from 'react-native';
-import 'react-native-reanimated';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import { useColorScheme as useSystemColorScheme } from "react-native";
+import "react-native-reanimated";
 
-import { SettingsProvider, useSettings } from '@/contexts/SettingsContext';
-import { runMigrations, seedDatabase } from '@/database';
+import { SettingsProvider, useSettings } from "@/contexts/SettingsContext";
+import { runMigrations, seedDatabase } from "@/database";
 
 // Keep splash screen visible while loading
 SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {
-  anchor: '(tabs)',
+  anchor: "(tabs)",
 };
 
 function RootLayoutNav() {
@@ -24,19 +28,21 @@ function RootLayoutNav() {
     return null;
   }
 
-  const effectiveTheme = settings.theme === 'system'
-    ? systemColorScheme
-    : settings.theme;
+  const effectiveTheme =
+    settings.theme === "system" ? systemColorScheme : settings.theme;
 
-  const isDark = effectiveTheme === 'dark';
+  const isDark = effectiveTheme === "dark";
 
   return (
     <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen
+          name="modal"
+          options={{ presentation: "modal", title: "Modal" }}
+        />
       </Stack>
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <StatusBar style={isDark ? "light" : "dark"} />
     </ThemeProvider>
   );
 }
@@ -52,7 +58,7 @@ export default function RootLayout() {
         seedDatabase();
         setIsDbReady(true);
       } catch (error) {
-        console.error('Failed to initialize database:', error);
+        console.error("Failed to initialize database:", error);
       } finally {
         // Hide splash screen
         await SplashScreen.hideAsync();

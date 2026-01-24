@@ -2,13 +2,13 @@
  * CategoryItem - Single category row in list
  */
 
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Category } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { Category } from "@/types";
 
 interface CategoryItemProps {
   category: Category;
@@ -16,7 +16,7 @@ interface CategoryItemProps {
 }
 
 export function CategoryItem({ category, onPress }: CategoryItemProps) {
-  const textColor = useThemeColor({}, 'text');
+  const textColor = useThemeColor({}, "text");
   const isDefault = category.is_custom === 0;
 
   return (
@@ -56,8 +56,8 @@ export function CategoryItem({ category, onPress }: CategoryItemProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
@@ -65,29 +65,28 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   content: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   name: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   badge: {
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 10,
-    backgroundColor: 'rgba(128, 128, 128, 0.15)',
+    backgroundColor: "rgba(128, 128, 128, 0.15)",
   },
   badgeText: {
     fontSize: 11,
     opacity: 0.6,
   },
 });
-

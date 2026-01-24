@@ -2,7 +2,7 @@
  * CategoryPicker - Modal for selecting transaction category
  */
 
-import React, { useState } from 'react';
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,14 +10,14 @@ import {
   ScrollView,
   View,
   Pressable,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import type { Category, CategoryType } from '@/types';
-import { getCategoriesByType } from '@/database';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import type { Category, CategoryType } from "@/types";
+import { getCategoriesByType } from "@/database";
 
 interface CategoryPickerProps {
   visible: boolean;
@@ -34,8 +34,8 @@ export function CategoryPicker({
   selectedCategory,
   type,
 }: CategoryPickerProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
   const categories = getCategoriesByType(type);
 
   const handleSelect = (category: Category) => {
@@ -53,14 +53,17 @@ export function CategoryPicker({
       <ThemedView style={[styles.container, { backgroundColor }]}>
         <View style={styles.header}>
           <ThemedText type="subtitle">
-            Select {type === 'income' ? 'Income' : 'Expense'} Category
+            Select {type === "income" ? "Income" : "Expense"} Category
           </ThemedText>
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+        >
           {categories.map((category) => (
             <Pressable
               key={category.id}
@@ -71,7 +74,10 @@ export function CategoryPicker({
               onPress={() => handleSelect(category)}
             >
               <View
-                style={[styles.iconContainer, { backgroundColor: category.color }]}
+                style={[
+                  styles.iconContainer,
+                  { backgroundColor: category.color },
+                ]}
               >
                 <Ionicons
                   name={category.icon as keyof typeof Ionicons.glyphMap}
@@ -79,7 +85,9 @@ export function CategoryPicker({
                   color="#fff"
                 />
               </View>
-              <ThemedText style={styles.categoryName}>{category.name}</ThemedText>
+              <ThemedText style={styles.categoryName}>
+                {category.name}
+              </ThemedText>
               {selectedCategory === category.name && (
                 <Ionicons name="checkmark" size={24} color="#4CAF50" />
               )}
@@ -96,12 +104,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   closeButton: {
     padding: 4,
@@ -113,21 +121,21 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   categoryItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
     marginBottom: 8,
   },
   selectedItem: {
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    backgroundColor: "rgba(76, 175, 80, 0.1)",
   },
   iconContainer: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   categoryName: {
@@ -135,4 +143,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

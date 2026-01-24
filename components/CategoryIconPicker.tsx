@@ -2,7 +2,7 @@
  * CategoryIconPicker - Icon selection grid for categories
  */
 
-import React from 'react';
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,13 +10,13 @@ import {
   ScrollView,
   View,
   Pressable,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { CATEGORY_ICON_GROUPS } from '@/utils/categoryIcons';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { CATEGORY_ICON_GROUPS } from "@/utils/categoryIcons";
 
 interface CategoryIconPickerProps {
   visible: boolean;
@@ -31,10 +31,10 @@ export function CategoryIconPicker({
   onClose,
   onSelect,
   selectedIcon,
-  selectedColor = '#4CAF50',
+  selectedColor = "#4CAF50",
 }: CategoryIconPickerProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
 
   const handleSelect = (icon: string) => {
     onSelect(icon);
@@ -56,7 +56,10 @@ export function CategoryIconPicker({
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.scrollContent}
+        >
           {CATEGORY_ICON_GROUPS.map((group) => (
             <View key={group.name} style={styles.group}>
               <ThemedText style={styles.groupTitle}>{group.name}</ThemedText>
@@ -74,14 +77,14 @@ export function CategoryIconPicker({
                           backgroundColor:
                             selectedIcon === icon
                               ? selectedColor
-                              : 'rgba(128, 128, 128, 0.1)',
+                              : "rgba(128, 128, 128, 0.1)",
                         },
                       ]}
                     >
                       <Ionicons
                         name={icon as keyof typeof Ionicons.glyphMap}
                         size={24}
-                        color={selectedIcon === icon ? '#fff' : textColor}
+                        color={selectedIcon === icon ? "#fff" : textColor}
                       />
                     </View>
                   </Pressable>
@@ -100,12 +103,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   closeButton: {
     padding: 4,
@@ -122,27 +125,26 @@ const styles = StyleSheet.create({
   },
   groupTitle: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     opacity: 0.6,
     marginBottom: 12,
   },
   iconGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   iconItem: {
-    width: '16.66%',
+    width: "16.66%",
     aspectRatio: 1,
     padding: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   iconContainer: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
-

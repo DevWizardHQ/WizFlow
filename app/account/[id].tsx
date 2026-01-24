@@ -2,7 +2,7 @@
  * Edit Account Screen
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -12,33 +12,33 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { AccountIcon } from '@/components/AccountIcon';
-import { IconPicker } from '@/components/IconPicker';
-import { ColorPicker } from '@/components/ColorPicker';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { getAccountById, updateAccount, archiveAccount } from '@/database';
-import { ACCOUNT_TYPES } from '@/utils/constants';
-import type { AccountType } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+// import { ThemedView } from '@/components/themed-view';
+import { AccountIcon } from "@/components/AccountIcon";
+import { IconPicker } from "@/components/IconPicker";
+import { ColorPicker } from "@/components/ColorPicker";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { getAccountById, updateAccount, archiveAccount } from "@/database";
+import { ACCOUNT_TYPES } from "@/utils/constants";
+import type { AccountType } from "@/types";
 
 export default function EditAccountScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-  const placeholderColor = useThemeColor({}, 'tabIconDefault');
+  const backgroundColor = useThemeColor({}, "background");
+  const textColor = useThemeColor({}, "text");
+  const placeholderColor = useThemeColor({}, "tabIconDefault");
 
   // Form state
-  const [name, setName] = useState('');
-  const [accountType, setAccountType] = useState<AccountType>('general');
-  const [icon, setIcon] = useState('wallet');
-  const [color, setColor] = useState('#36A2EB');
+  const [name, setName] = useState("");
+  const [accountType, setAccountType] = useState<AccountType>("general");
+  const [icon, setIcon] = useState("wallet");
+  const [color, setColor] = useState("#36A2EB");
   const [loading, setLoading] = useState(true);
 
   // Modal state
@@ -54,7 +54,7 @@ export default function EditAccountScreen() {
 
     const account = getAccountById(parseInt(id, 10));
     if (!account) {
-      Alert.alert('Error', 'Account not found');
+      Alert.alert("Error", "Account not found");
       router.back();
       return;
     }
@@ -66,13 +66,13 @@ export default function EditAccountScreen() {
     setLoading(false);
   }, [id]);
 
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     if (!name.trim()) {
-      Alert.alert('Missing Name', 'Please enter an account name');
+      Alert.alert("Missing Name", "Please enter an account name");
       return false;
     }
     return true;
-  };
+  }, [name]);
 
   const handleSave = useCallback(() => {
     if (!validateForm() || !id) return;
@@ -88,32 +88,34 @@ export default function EditAccountScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.back();
     } catch (error) {
-      console.error('Failed to update account:', error);
-      Alert.alert('Error', 'Failed to update account. Please try again.');
+      console.error("Failed to update account:", error);
+      Alert.alert("Error", "Failed to update account. Please try again.");
     }
-  }, [id, name, accountType, icon, color]);
+  }, [id, name, accountType, icon, color, validateForm]);
 
   const handleArchive = useCallback(() => {
     Alert.alert(
-      'Archive Account',
-      'Are you sure you want to archive this account? It will be hidden from your accounts list but transactions will be preserved.',
+      "Archive Account",
+      "Are you sure you want to archive this account? It will be hidden from your accounts list but transactions will be preserved.",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'Archive',
-          style: 'destructive',
+          text: "Archive",
+          style: "destructive",
           onPress: () => {
             try {
               archiveAccount(parseInt(id!, 10));
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success,
+              );
               router.back();
             } catch (error) {
-              console.error('Failed to archive account:', error);
-              Alert.alert('Error', 'Failed to archive account.');
+              console.error("Failed to archive account:", error);
+              Alert.alert("Error", "Failed to archive account.");
             }
           },
         },
-      ]
+      ],
     );
   }, [id]);
 
@@ -133,14 +135,20 @@ export default function EditAccountScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="close" size={24} color={textColor} />
           </TouchableOpacity>
           <ThemedText type="subtitle">Edit Account</ThemedText>
@@ -149,12 +157,15 @@ export default function EditAccountScreen() {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
+        <ScrollView
+          style={styles.form}
+          contentContainerStyle={styles.formContent}
+        >
           {/* Preview */}
           <View style={styles.previewSection}>
             <AccountIcon icon={icon} color={color} size="large" />
             <ThemedText style={styles.previewName}>
-              {name || 'Account Name'}
+              {name || "Account Name"}
             </ThemedText>
           </View>
 
@@ -223,16 +234,23 @@ export default function EditAccountScreen() {
                 style={styles.selector}
                 onPress={() => setShowColorPicker(true)}
               >
-                <View style={[styles.colorPreview, { backgroundColor: color }]} />
+                <View
+                  style={[styles.colorPreview, { backgroundColor: color }]}
+                />
                 <ThemedText style={styles.selectorText}>Change</ThemedText>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* Archive Button */}
-          <TouchableOpacity style={styles.archiveButton} onPress={handleArchive}>
+          <TouchableOpacity
+            style={styles.archiveButton}
+            onPress={handleArchive}
+          >
             <Ionicons name="archive-outline" size={20} color="#FF6B6B" />
-            <ThemedText style={styles.archiveButtonText}>Archive Account</ThemedText>
+            <ThemedText style={styles.archiveButtonText}>
+              Archive Account
+            </ThemedText>
           </TouchableOpacity>
         </ScrollView>
 
@@ -265,17 +283,17 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(128, 128, 128, 0.3)',
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
   },
   backButton: {
     padding: 4,
@@ -284,9 +302,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   saveButtonText: {
-    color: '#4CAF50',
+    color: "#4CAF50",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   form: {
     flex: 1,
@@ -295,13 +313,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   previewSection: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 24,
     marginBottom: 16,
   },
   previewName: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginTop: 12,
     opacity: 0.8,
   },
@@ -312,50 +330,50 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   label: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     opacity: 0.6,
     marginBottom: 8,
   },
   textInput: {
     padding: 14,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     fontSize: 16,
   },
   typeGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
   },
   typeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     gap: 6,
   },
   typeButtonActive: {
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   typeButtonText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   selector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 12,
     borderRadius: 12,
-    backgroundColor: 'rgba(128, 128, 128, 0.1)',
+    backgroundColor: "rgba(128, 128, 128, 0.1)",
     gap: 10,
   },
   selectorText: {
@@ -368,19 +386,18 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   archiveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 16,
     marginTop: 20,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+    backgroundColor: "rgba(255, 107, 107, 0.1)",
     gap: 8,
   },
   archiveButtonText: {
-    color: '#FF6B6B',
+    color: "#FF6B6B",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });
-

@@ -2,12 +2,12 @@
  * EmptyState - Placeholder component for empty lists
  */
 
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { ThemedText } from '@/components/themed-text';
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { ThemedText } from "@/components/themed-text";
+import { useThemeColor } from "@/hooks/use-theme-color";
 
 interface EmptyStateProps {
   icon?: keyof typeof Ionicons.glyphMap;
@@ -17,25 +17,18 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  icon = 'folder-open-outline',
+  icon = "folder-open-outline",
   title,
   subtitle,
   action,
 }: EmptyStateProps) {
-  const textColor = useThemeColor({}, 'text');
+  const textColor = useThemeColor({}, "text");
 
   return (
     <View style={styles.container}>
-      <Ionicons
-        name={icon}
-        size={64}
-        color={textColor}
-        style={styles.icon}
-      />
+      <Ionicons name={icon} size={64} color={textColor} style={styles.icon} />
       <ThemedText style={styles.title}>{title}</ThemedText>
-      {subtitle && (
-        <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>
-      )}
+      {subtitle && <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>}
       {action && <View style={styles.action}>{action}</View>}
     </View>
   );
@@ -43,8 +36,8 @@ export function EmptyState({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 32,
   },
   icon: {
@@ -53,13 +46,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     opacity: 0.7,
   },
   subtitle: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     opacity: 0.5,
     marginTop: 8,
     paddingHorizontal: 16,
@@ -68,4 +61,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-

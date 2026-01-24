@@ -2,12 +2,12 @@
  * AccountList - Scrollable list of account cards
  */
 
-import React from 'react';
-import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import React from "react";
+import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 
-import { AccountCard } from '@/components/AccountCard';
-import { EmptyState } from '@/components/EmptyState';
-import type { Account } from '@/types';
+import { AccountCard } from "@/components/AccountCard";
+import { EmptyState } from "@/components/EmptyState";
+import type { Account } from "@/types";
 
 interface AccountListProps {
   accounts: Account[];
@@ -83,4 +83,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
-

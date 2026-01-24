@@ -1,27 +1,28 @@
-import { useState, useCallback } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router, useFocusEffect } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
+import { useState, useCallback } from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router, useFocusEffect } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { TransactionList } from '@/components/TransactionList';
-import { useThemeColor } from '@/hooks/use-theme-color';
-import { getTransactions, getTotalBalance } from '@/database';
-import type { Transaction } from '@/types';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { TransactionList } from "@/components/TransactionList";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { getTransactions, getTotalBalance } from "@/database";
+import type { Transaction } from "@/types";
 
 export default function HomeScreen() {
-  const backgroundColor = useThemeColor({}, 'background');
+  const backgroundColor = useThemeColor({}, "background");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [totalBalance, setTotalBalance] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadData = useCallback(() => {
-    const txns = getTransactions({ limit: 50 });
+  const loadData = useCallback(async () => {
+    const txns = await getTransactions({ limit: 50 });
     setTransactions(txns);
-    setTotalBalance(getTotalBalance());
+    const balance = await getTotalBalance();
+    setTotalBalance(balance);
   }, []);
 
   // Refresh data when screen is focused
@@ -31,9 +32,9 @@ export default function HomeScreen() {
     }, [loadData])
   );
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    loadData();
+    await loadData();
     setRefreshing(false);
   }, [loadData]);
 
@@ -43,21 +44,26 @@ export default function HomeScreen() {
 
   const handleAddTransaction = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push('/transaction/add');
+    router.push("/transaction/add");
   };
 
   const formatBalance = (balance: number) => {
-    const prefix = balance >= 0 ? '' : '-';
+    const prefix = balance >= 0 ? "" : "-";
     return `${prefix}$${Math.abs(balance).toFixed(2)}`;
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor }]}
+      edges={["top"]}
+    >
       {/* Header */}
       <ThemedView style={styles.header}>
         <View>
           <ThemedText type="title">WizFlow</ThemedText>
-          <ThemedText style={styles.subtitle}>Your Personal Finance Tracker</ThemedText>
+          <ThemedText style={styles.subtitle}>
+            Your Personal Finance Tracker
+          </ThemedText>
         </View>
       </ThemedView>
 
@@ -67,7 +73,7 @@ export default function HomeScreen() {
         <ThemedText
           style={[
             styles.balanceAmount,
-            { color: totalBalance >= 0 ? '#4CAF50' : '#FF6B6B' }
+            { color: totalBalance >= 0 ? "#4CAF50" : "#FF6B6B" },
           ]}
         >
           {formatBalance(totalBalance)}
@@ -79,7 +85,8 @@ export default function HomeScreen() {
         <View style={styles.sectionHeader}>
           <ThemedText type="subtitle">Recent Transactions</ThemedText>
           <ThemedText style={styles.transactionCount}>
-            {transactions.length} {transactions.length === 1 ? 'transaction' : 'transactions'}
+            {transactions.length}{" "}
+            {transactions.length === 1 ? "transaction" : "transactions"}
           </ThemedText>
         </View>
 
@@ -122,8 +129,8 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     padding: 20,
     borderRadius: 16,
-    backgroundColor: 'rgba(128, 128, 128, 0.05)',
-    alignItems: 'center',
+    backgroundColor: "rgba(128, 128, 128, 0.05)",
+    alignItems: "center",
   },
   balanceLabel: {
     fontSize: 14,
@@ -132,15 +139,15 @@ const styles = StyleSheet.create({
   },
   balanceAmount: {
     fontSize: 36,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   transactionsSection: {
     flex: 1,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
@@ -149,17 +156,17 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     bottom: 20,
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#4CAF50',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#4CAF50",
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,

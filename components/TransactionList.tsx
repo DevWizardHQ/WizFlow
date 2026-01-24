@@ -2,16 +2,16 @@
  * TransactionList - Scrollable list with date-grouped transactions
  */
 
-import React, { useMemo } from 'react';
-import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { format } from 'date-fns';
+import React, { useMemo } from "react";
+import { StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { format } from "date-fns";
 
-import { TransactionGroup } from '@/components/TransactionGroup';
-import { EmptyState } from '@/components/EmptyState';
-import type { Transaction } from '@/types';
+import { TransactionGroup } from "@/components/TransactionGroup";
+import { EmptyState } from "@/components/EmptyState";
+import type { Transaction } from "@/types";
 
 interface TransactionListProps {
-  transactions: Transaction[];
+  transactions?: Transaction[];
   onTransactionPress?: (transaction: Transaction) => void;
   refreshing?: boolean;
   onRefresh?: () => void;
@@ -23,12 +23,14 @@ export function TransactionList({
   refreshing = false,
   onRefresh,
 }: TransactionListProps) {
+  const safeTransactions = transactions || [];
+
   // Group transactions by date
   const groupedTransactions = useMemo(() => {
     const groups: Record<string, Transaction[]> = {};
 
-    transactions.forEach((transaction) => {
-      const dateKey = format(new Date(transaction.date), 'yyyy-MM-dd');
+    safeTransactions.forEach((transaction) => {
+      const dateKey = format(new Date(transaction.date), "yyyy-MM-dd");
       if (!groups[dateKey]) {
         groups[dateKey] = [];
       }
@@ -39,9 +41,9 @@ export function TransactionList({
     return Object.entries(groups)
       .sort(([a], [b]) => b.localeCompare(a))
       .map(([date, txns]) => ({ date, transactions: txns }));
-  }, [transactions]);
+  }, [safeTransactions]);
 
-  if (transactions.length === 0) {
+  if (safeTransactions.length === 0) {
     return (
       <ScrollView
         style={styles.container}
@@ -93,9 +95,8 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
 });
-
