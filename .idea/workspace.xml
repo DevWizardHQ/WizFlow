@@ -5,123 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/components/Button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/operations/settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/prompts/openspec-apply.prompt.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/prompts/openspec-archive.prompt.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/prompts/openspec-proposal.prompt.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/WizFlowApp.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deviceManager.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/markdown.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/accounts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/accounts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/stats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/detail/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/detail/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/backup/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/export/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/export/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/import/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/import/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/transaction/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/transaction/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/transaction/add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/transaction/add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/transaction/transfer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/transaction/transfer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AccountCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AccountIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountIcon.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AccountList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AccountPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AmountInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AmountInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/BalanceSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/BalanceSummary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategoryIconPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategoryIconPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategoryItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategoryItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategoryPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategoryPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategorySection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategorySection.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Charts/BarChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Charts/BarChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Charts/LineChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Charts/LineChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Charts/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Charts/PieChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ColorPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ColorPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CurrencyPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CurrencyPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/DatePickerButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/DatePickerButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/EmptyState.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/EmptyState.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/IconPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/IconPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PeriodSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PeriodSelector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SettingItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SettingItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SettingLink.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SettingLink.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SettingPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SettingPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SettingToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SettingToggle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SummaryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SummaryCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/TransactionGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionGroup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/TransactionItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/TransactionList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/external-link.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/external-link.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/haptic-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/haptic-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/hello-wave.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/hello-wave.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/parallax-scroll-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/parallax-scroll-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/themed-text.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/themed-text.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/themed-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/themed-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/collapsible.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/collapsible.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/icon-symbol.ios.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/icon-symbol.ios.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eas.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/AGENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/ROADMAP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2024-07-17-add-backup-export/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2024-07-17-add-backup-export/specs/data-management/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2024-07-17-add-backup-export/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-account-management/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-account-management/specs/accounts/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-account-management/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-core-foundation/design.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-core-foundation/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-core-foundation/specs/database/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-core-foundation/specs/navigation/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-core-foundation/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-transaction-management/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-transaction-management/specs/transactions/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-12-add-transaction-management/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-analytics-stats/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-analytics-stats/specs/analytics/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-analytics-stats/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-custom-categories/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-custom-categories/specs/categories/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2025-01-14-add-custom-categories/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2026-01-17-add-settings-screen/proposal.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2026-01-17-add-settings-screen/specs/settings/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/changes/archive/2026-01-17-add-settings-screen/tasks.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/project.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/accounts/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/categories/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/data-management/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/database/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/navigation/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/openspec/specs/transactions/spec.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-workspace.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +29,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;shazeedul&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DevWizardHQ/WizFlow.git&quot;,
+    &quot;accountId&quot;: &quot;8767c1d6-482a-4068-a0cb-46ecbd151cdf&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -165,7 +62,7 @@
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fresh&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/shazeedul/App/WizFlowApp&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;templates.modelproviders.configurable&quot;
