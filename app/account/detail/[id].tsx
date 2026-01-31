@@ -13,9 +13,9 @@ import { ThemedView } from "@/components/themed-view";
 import { AccountIcon } from "@/components/AccountIcon";
 import { TransactionList } from "@/components/TransactionList";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { getAccountById, getTransactions } from "@/database";
+import { getAccountById, getTransactionsWithAccounts } from "@/database";
 import { CURRENCIES } from "@/utils/constants";
-import type { Account, Transaction } from "@/types";
+import type { Account, TransactionWithAccount } from "@/types";
 
 export default function AccountDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -23,24 +23,30 @@ export default function AccountDetailScreen() {
   const textColor = useThemeColor({}, "text");
 
   const [account, setAccount] = useState<Account | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<TransactionWithAccount[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadData = useCallback(() => {
+  const loadData = useCallback(async () => {
     if (!id) return;
 
-    const acct = getAccountById(parseInt(id, 10));
-    if (!acct) {
-      Alert.alert("Error", "Account not found");
-      router.back();
-      return;
-    }
+    try {
+      const acct = getAccountById(parseInt(id, 10));
+      if (!acct) {
+        Alert.alert("Error", "Account not found");
+        router.back();
+        return;
+      }
+      setAccount(acct);
 
-    setAccount(acct);
-    const txns = getTransactions({ accountId: parseInt(id, 10), limit: 100 });
-    setTransactions(txns);
-    setLoading(false);
+      const txns = await getTransactionsWithAccounts({ accountId: parseInt(id, 10), limit: 100 });
+      setTransactions(txns);
+    } catch (error) {
+      console.error("Error loading account details:", error);
+      Alert.alert("Error", "Failed to load account details.");
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -55,22 +61,22 @@ export default function AccountDetailScreen() {
     }, [loadData, loading]),
   );
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    loadData();
+    await loadData();
     setRefreshing(false);
   }, [loadData]);
 
   const handleEditAccount = () => {
-    router.push(`/account/${id}`);
+    router.push(`/account/edit/${id}`);
   };
 
-  const handleTransactionPress = (transaction: Transaction) => {
-    router.push(`/transaction/${transaction.id}`);
+  const handleTransactionPress = (transaction: TransactionWithAccount) => {
+    router.push(`/transaction/detail/${transaction.id}`);
   };
 
   const handleAddTransaction = () => {
-    router.push("/transaction/add");
+    router.push(`/transaction/add?accountId=${id}`);
   };
 
   if (loading || !account) {
@@ -144,6 +150,7 @@ export default function AccountDetailScreen() {
           onTransactionPress={handleTransactionPress}
           refreshing={refreshing}
           onRefresh={handleRefresh}
+          showAccountInfo={false} // Don't show account info in this context
         />
       </View>
 

@@ -4,6 +4,6 @@
 
 export { getDatabase, getDbInstance, closeDatabase } from './db';
 export { runMigrations, isDatabaseInitialized, resetDatabase } from './migrations';
-export { seedDatabase, seedCategories } from './seed';
+export { seedDatabase } from './seed';
 export * from './operations';
 

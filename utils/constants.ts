@@ -20,7 +20,7 @@ export const CURRENCIES = [
   { code: 'CHF', symbol: 'Fr', name: 'Swiss Franc' },
 ] as const;
 
-export const DEFAULT_CURRENCY = 'USD';
+export const DEFAULT_CURRENCY = 'BDT';
 
 /**
  * Account type options
@@ -32,6 +32,16 @@ export const ACCOUNT_TYPES: { value: AccountType; label: string; icon: string }[
   { value: 'credit', label: 'Credit Card', icon: 'card' },
   { value: 'investment', label: 'Investment', icon: 'trending-up' },
 ];
+
+/**
+ * Default account
+ */
+export const DEFAULT_ACCOUNT = {
+  name: 'Main Account',
+  type: 'bank',
+  color: '#4CAF50', // Green
+  icon: 'business',
+};
 
 /**
  * Color palette for accounts and categories
@@ -120,4 +130,3 @@ export const DEFAULT_DATE_FORMAT = 'MM/dd/yyyy';
  */
 export const APP_NAME = 'WizFlow';
 export const APP_VERSION = '1.0.0';
-

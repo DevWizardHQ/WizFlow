@@ -8,13 +8,14 @@ import { format } from "date-fns";
 
 import { TransactionGroup } from "@/components/TransactionGroup";
 import { EmptyState } from "@/components/EmptyState";
-import type { Transaction } from "@/types";
+import type { TransactionWithAccount } from "@/types";
 
 interface TransactionListProps {
-  transactions?: Transaction[];
-  onTransactionPress?: (transaction: Transaction) => void;
+  transactions?: TransactionWithAccount[];
+  onTransactionPress?: (transaction: TransactionWithAccount) => void;
   refreshing?: boolean;
   onRefresh?: () => void;
+  showAccountInfo?: boolean; // New prop
 }
 
 export function TransactionList({
@@ -22,12 +23,13 @@ export function TransactionList({
   onTransactionPress,
   refreshing = false,
   onRefresh,
+  showAccountInfo = true, // Default to true
 }: TransactionListProps) {
   const safeTransactions = transactions || [];
 
   // Group transactions by date
   const groupedTransactions = useMemo(() => {
-    const groups: Record<string, Transaction[]> = {};
+    const groups: Record<string, TransactionWithAccount[]> = {};
 
     safeTransactions.forEach((transaction) => {
       const dateKey = format(new Date(transaction.date), "yyyy-MM-dd");
@@ -79,6 +81,7 @@ export function TransactionList({
           date={date}
           transactions={transactions}
           onTransactionPress={onTransactionPress}
+          showAccountInfo={showAccountInfo} // Pass down
         />
       ))}
     </ScrollView>
