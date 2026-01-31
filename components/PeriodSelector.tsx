@@ -16,7 +16,7 @@ interface PeriodSelectorProps {
 }
 
 export function PeriodSelector({ selected, onSelect }: PeriodSelectorProps) {
-  //   const backgroundColor = useThemeColor({}, 'background');
+    const backgroundColor = useThemeColor({}, 'background');
   const textColor = useThemeColor({}, "text");
 
   return (

@@ -87,6 +87,6 @@ function seedInitialAccount(): void {
  * Seed all default data
  */
 export function seedDatabase(): void {
-  seedCategories();
   seedInitialAccount();
+  seedCategories();
 }

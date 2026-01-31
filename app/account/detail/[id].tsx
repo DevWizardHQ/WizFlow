@@ -68,7 +68,7 @@ export default function AccountDetailScreen() {
   }, [loadData]);
 
   const handleEditAccount = () => {
-    router.push(`/account/edit/${id}`);
+    router.push(`/account/${id}`);
   };
 
   const handleTransactionPress = (transaction: TransactionWithAccount) => {

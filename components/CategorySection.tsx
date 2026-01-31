@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { CategoryItem } from "@/components/CategoryItem";
-// import { useThemeColor } from '@/hooks/use-theme-color';
+import { useThemeColor } from '@/hooks/use-theme-color';
 import type { Category, CategoryType } from "@/types";
 
 interface CategorySectionProps {
@@ -27,7 +27,7 @@ export function CategorySection({
   onCategoryPress,
   onAddPress,
 }: CategorySectionProps) {
-  //   const textColor = useThemeColor({}, 'text');
+    const textColor = useThemeColor({}, 'text');
 
   return (
     <ThemedView style={styles.container}>
