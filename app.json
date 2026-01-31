@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WizFlowApp",
-    "slug": "WizFlowApp",
+    "name": "WizFlow",
+    "slug": "wizflow",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
