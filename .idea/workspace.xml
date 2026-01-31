@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="fixup! account page">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="fixup! package json">
+      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/account/detail/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/detail/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769892962182</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fixup! package json">
+      <option name="closed" value="true" />
+      <created>1769893010366</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769893010366</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -130,7 +139,8 @@
     <MESSAGE value="final push" />
     <MESSAGE value="update" />
     <MESSAGE value="fixup! account page" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixup! account page" />
+    <MESSAGE value="fixup! package json" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixup! package json" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
