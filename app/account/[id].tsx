@@ -14,7 +14,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
@@ -40,6 +40,7 @@ export default function EditAccountScreen() {
   const [icon, setIcon] = useState("wallet");
   const [color, setColor] = useState("#36A2EB");
   const [loading, setLoading] = useState(true);
+  const [currentAccount, setCurrentAccount] = useState<any>(null); // To hold account data
 
   // Modal state
   const [showIconPicker, setShowIconPicker] = useState(false);
@@ -47,22 +48,33 @@ export default function EditAccountScreen() {
 
   // Load account data
   useEffect(() => {
-    if (!id) {
+    let accountId: number;
+
+    if (Array.isArray(id)) {
+      if (id.length === 0) {
+        router.back();
+        return;
+      }
+      accountId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      accountId = parseInt(id, 10);
+    } else {
       router.back();
       return;
     }
 
-    const account = getAccountById(parseInt(id, 10));
-    if (!account) {
+    const accountData = getAccountById(accountId);
+    if (!accountData) {
       Alert.alert("Error", "Account not found");
       router.back();
       return;
     }
 
-    setName(account.name);
-    setAccountType(account.type);
-    setIcon(account.icon);
-    setColor(account.color);
+    setName(accountData.name);
+    setAccountType(accountData.type);
+    setIcon(accountData.icon);
+    setColor(accountData.color);
+    setCurrentAccount(accountData); // Store account data
     setLoading(false);
   }, [id]);
 
@@ -75,10 +87,21 @@ export default function EditAccountScreen() {
   }, [name]);
 
   const handleSave = useCallback(() => {
-    if (!validateForm() || !id) return;
+    // Ensure id is a valid number before parsing
+    let accountId: number;
+    if (Array.isArray(id)) {
+      if (id.length === 0) return;
+      accountId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      accountId = parseInt(id, 10);
+    } else {
+      return;
+    }
+
+    if (!validateForm()) return;
 
     try {
-      updateAccount(parseInt(id, 10), {
+      updateAccount(accountId, {
         name: name.trim(),
         icon,
         color,
@@ -94,6 +117,17 @@ export default function EditAccountScreen() {
   }, [id, name, accountType, icon, color, validateForm]);
 
   const handleArchive = useCallback(() => {
+    // Ensure id is a valid number before parsing
+    let accountId: number;
+    if (Array.isArray(id)) {
+      if (id.length === 0) return;
+      accountId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      accountId = parseInt(id, 10);
+    } else {
+      return;
+    }
+
     Alert.alert(
       "Archive Account",
       "Are you sure you want to archive this account? It will be hidden from your accounts list but transactions will be preserved.",
@@ -104,7 +138,7 @@ export default function EditAccountScreen() {
           style: "destructive",
           onPress: () => {
             try {
-              archiveAccount(parseInt(id!, 10));
+              archiveAccount(accountId);
               Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success,
               );
@@ -134,6 +168,7 @@ export default function EditAccountScreen() {
     );
   }
 
+  // Render the screen only after data is loaded
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor }]}
@@ -143,19 +178,22 @@ export default function EditAccountScreen() {
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-          >
-            <Ionicons name="close" size={24} color={textColor} />
-          </TouchableOpacity>
-          <ThemedText type="subtitle">Edit Account</ThemedText>
-          <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-            <ThemedText style={styles.saveButtonText}>Save</ThemedText>
-          </TouchableOpacity>
-        </View>
+        {/* Stack.Screen should be inside the conditional rendering */}
+        <Stack.Screen
+          options={{
+              backButton: () => (
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                  <Ionicons name="close" size={24} color={textColor} />
+                </TouchableOpacity>
+              ),
+            headerTitle: "Edit Account",
+            headerRight: () => (
+              <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
+               <ThemedText style={styles.saveButtonText}>Save</ThemedText>
+              </TouchableOpacity>
+            ),
+          }}
+        />
 
         <ScrollView
           style={styles.form}

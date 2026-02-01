@@ -57,12 +57,22 @@ export default function EditTransactionScreen() {
 
   // Load transaction data
   useEffect(() => {
-    if (!id) {
+    let transactionId: number;
+
+    if (Array.isArray(id)) {
+      if (id.length === 0) {
+        router.back();
+        return;
+      }
+      transactionId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      transactionId = parseInt(id, 10);
+    } else {
       router.back();
       return;
     }
 
-    const transaction = getTransactionById(parseInt(id, 10));
+    const transaction = getTransactionById(transactionId);
     if (!transaction) {
       Alert.alert("Error", "Transaction not found");
       router.back();
@@ -70,10 +80,12 @@ export default function EditTransactionScreen() {
     }
 
     setType(transaction.type);
-    setAmount(transaction.amount.toString());
+    // Ensure amount is a string before calling toString()
+    setAmount(transaction.amount ? transaction.amount.toString() : "");
     setTitle(transaction.title);
     setNote(transaction.note || "");
-    setDate(parseISO(transaction.date));
+    // Ensure date is a valid string before parsing
+    setDate(transaction.date ? parseISO(transaction.date) : new Date());
 
     const txnCategory = getCategoryByName(transaction.category);
     if (txnCategory) setCategory(txnCategory);
@@ -114,10 +126,21 @@ export default function EditTransactionScreen() {
   }, [amount, category, account]);
 
   const handleSave = useCallback(() => {
-    if (!validateForm() || !id) return;
+    // Ensure id is a valid number before parsing
+    let transactionId: number;
+    if (Array.isArray(id)) {
+      if (id.length === 0) return;
+      transactionId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      transactionId = parseInt(id, 10);
+    } else {
+      return;
+    }
+
+    if (!validateForm()) return;
 
     try {
-      updateTransaction(parseInt(id, 10), {
+      updateTransaction(transactionId, {
         title: title || category!.name,
         amount: parseFloat(amount),
         type,
@@ -136,6 +159,17 @@ export default function EditTransactionScreen() {
   }, [validateForm, id, amount, title, category, account, date, note, type]);
 
   const handleDelete = useCallback(() => {
+    // Ensure id is a valid number before parsing
+    let transactionId: number;
+    if (Array.isArray(id)) {
+      if (id.length === 0) return;
+      transactionId = parseInt(id[0], 10);
+    } else if (typeof id === "string") {
+      transactionId = parseInt(id, 10);
+    } else {
+      return;
+    }
+
     Alert.alert(
       "Delete Transaction",
       "Are you sure you want to delete this transaction? This action cannot be undone.",
@@ -146,7 +180,7 @@ export default function EditTransactionScreen() {
           style: "destructive",
           onPress: () => {
             try {
-              deleteTransaction(parseInt(id!, 10));
+              deleteTransaction(transactionId);
               Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success,
               );

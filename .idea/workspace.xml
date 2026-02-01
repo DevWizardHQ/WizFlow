@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="fixup! package json">
-      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/detail/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/detail/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/account/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/transaction/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/transaction/[id].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
