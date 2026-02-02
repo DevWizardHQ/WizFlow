@@ -43,10 +43,6 @@ export default function StatsScreen() {
     null,
   );
 
-  // Load data when period changes
-  useEffect(() => {
-    loadAnalyticsData(period);
-  }, [period, loadAnalyticsData]);
 
   const loadAnalyticsData = useCallback(
     async (selectedPeriod: Period) => {
@@ -93,6 +89,11 @@ export default function StatsScreen() {
     [], // safe: only uses imported functions + setState
   );
 
+  // Load data when period changes
+  useEffect(() => {
+    loadAnalyticsData(period);
+  }, [period, loadAnalyticsData]);
+
   const hasData =
     !loading && summary && (summary.income > 0 || summary.expenses > 0);
 
@@ -101,6 +102,11 @@ export default function StatsScreen() {
       {/* Header */}
       <ThemedView style={styles.header}>
         <ThemedText type="title">Statistics</ThemedText>
+      </ThemedView>
+
+      {/* Period Navigation Bar */}
+      <ThemedView style={styles.navBar}>
+        <PeriodSelector selected={period} onSelect={setPeriod} />
       </ThemedView>
 
       <ScrollView
@@ -117,8 +123,6 @@ export default function StatsScreen() {
           />
         ) : (
           <>
-            {/* Period Selector */}
-            <PeriodSelector selected={period} onSelect={setPeriod} />
 
             {/* Summary Cards */}
             <ThemedView style={styles.summaryRow}>
@@ -222,6 +226,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 10,
+  },
+  navBar: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(128, 128, 128, 0.1)",
   },
   content: {
     flex: 1,

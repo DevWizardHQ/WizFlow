@@ -8,6 +8,7 @@ import * as Haptics from "expo-haptics";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { TransactionList } from "@/components/TransactionList";
+import { useSettings } from "@/contexts/SettingsContext";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import { getTransactions, getTotalBalance } from "@/database";
 import type { Transaction } from "@/types";
@@ -17,6 +18,7 @@ export default function HomeScreen() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [totalBalance, setTotalBalance] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  const { settings } = useSettings();
 
   const loadData = useCallback(async () => {
     const txns = await getTransactions({ limit: 50 });
@@ -49,7 +51,7 @@ export default function HomeScreen() {
 
   const formatBalance = (balance: number) => {
     const prefix = balance >= 0 ? "" : "-";
-    return `${prefix}$${Math.abs(balance).toFixed(2)}`;
+    return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
   return (

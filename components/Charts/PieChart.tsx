@@ -57,7 +57,8 @@ export function PieChart({
         chartConfig={
           {
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: textColor,
+            // labelColor must be a function: (opacity)=>string
+            labelColor: (opacity = 1) => textColor,
           } as any
         }
         accessor="population"

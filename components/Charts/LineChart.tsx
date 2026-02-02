@@ -59,7 +59,8 @@ export function LineChart({
             backgroundGradientTo: backgroundColor,
             decimalPlaces: 0,
             color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
-            labelColor: textColor,
+            // react-native-chart-kit expects labelColor to be a function (opacity)=>string
+            labelColor: (opacity = 1) => textColor,
             style: {
               borderRadius: 16,
             },

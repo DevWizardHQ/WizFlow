@@ -9,6 +9,7 @@ import { format, isToday, isYesterday } from "date-fns";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { TransactionItem } from "@/components/TransactionItem";
+import { useSettings } from "@/contexts/SettingsContext";
 import type { Transaction } from "@/types";
 
 interface TransactionGroupProps {
@@ -23,6 +24,7 @@ export function TransactionGroup({
   onTransactionPress,
 }: TransactionGroupProps) {
   const dateObj = new Date(date);
+  const { settings } = useSettings();
 
   const getDateLabel = () => {
     if (isToday(dateObj)) return "Today";
@@ -49,12 +51,12 @@ export function TransactionGroup({
         <View style={styles.totals}>
           {income > 0 && (
             <ThemedText style={styles.incomeTotal}>
-              +${income.toFixed(2)}
+              +{settings.currencySymbol}{income.toFixed(2)}
             </ThemedText>
           )}
           {expense > 0 && (
             <ThemedText style={styles.expenseTotal}>
-              -${expense.toFixed(2)}
+              -{settings.currencySymbol}{expense.toFixed(2)}
             </ThemedText>
           )}
         </View>

@@ -159,17 +159,20 @@ export async function getWeeklyTotals(period: Period): Promise<TimeSeriesPoint[]
 
   const transactions = await getTransactions(filters);
 
-  // Group by week
-  const weeklyMap = new Map<string, { income: number; expenses: number }>();
-  
+  // Group by week (Monday-based week)
+  const weeklyMap = new Map<string, { income: number; expenses: number; date: Date }>();
+
   transactions.forEach(t => {
     const date = new Date(t.date);
-    const weekStart = new Date(date);
-    weekStart.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
+    // Calculate Monday of the week (weekStartsOn: 1 = Monday)
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust when Sunday
+    const weekStart = new Date(date.setDate(diff));
+    weekStart.setHours(0, 0, 0, 0);
     const weekKey = weekStart.toISOString().split('T')[0]; // YYYY-MM-DD format
     
-    const current = weeklyMap.get(weekKey) || { income: 0, expenses: 0 };
-    
+    const current = weeklyMap.get(weekKey) || { income: 0, expenses: 0, date: weekStart };
+
     if (t.type === 'income') {
       current.income += t.amount;
     } else {
@@ -182,7 +185,7 @@ export async function getWeeklyTotals(period: Period): Promise<TimeSeriesPoint[]
   // Convert to time series points
   return Array.from(weeklyMap.entries())
     .map(([dateStr, data]) => ({
-      label: `Week ${dateStr}`,
+      label: dateStr,
       income: data.income,
       expenses: data.expenses,
       date: new Date(dateStr)

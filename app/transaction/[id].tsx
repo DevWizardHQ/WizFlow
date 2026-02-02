@@ -57,43 +57,47 @@ export default function EditTransactionScreen() {
 
   // Load transaction data
   useEffect(() => {
-    let transactionId: number;
+    const loadTransaction = async () => {
+      let transactionId: number;
 
-    if (Array.isArray(id)) {
-      if (id.length === 0) {
+      if (Array.isArray(id)) {
+        if (id.length === 0) {
+          router.back();
+          return;
+        }
+        transactionId = parseInt(id[0], 10);
+      } else if (typeof id === "string") {
+        transactionId = parseInt(id, 10);
+      } else {
         router.back();
         return;
       }
-      transactionId = parseInt(id[0], 10);
-    } else if (typeof id === "string") {
-      transactionId = parseInt(id, 10);
-    } else {
-      router.back();
-      return;
-    }
 
-    const transaction = getTransactionById(transactionId);
-    if (!transaction) {
-      Alert.alert("Error", "Transaction not found");
-      router.back();
-      return;
-    }
+      const transaction = await getTransactionById(transactionId);
+      if (!transaction) {
+        Alert.alert("Error", "Transaction not found");
+        router.back();
+        return;
+      }
 
-    setType(transaction.type);
-    // Ensure amount is a string before calling toString()
-    setAmount(transaction.amount ? transaction.amount.toString() : "");
-    setTitle(transaction.title);
-    setNote(transaction.note || "");
-    // Ensure date is a valid string before parsing
-    setDate(transaction.date ? parseISO(transaction.date) : new Date());
+      setType(transaction.type);
+      // Ensure amount is a string before calling toString()
+      setAmount(transaction.amount ? transaction.amount.toString() : "");
+      setTitle(transaction.title);
+      setNote(transaction.note || "");
+      // Ensure date is a valid string before parsing
+      setDate(transaction.date ? parseISO(transaction.date) : new Date());
 
-    const txnCategory = getCategoryByName(transaction.category);
-    if (txnCategory) setCategory(txnCategory);
+      const txnCategory = getCategoryByName(transaction.category);
+      if (txnCategory) setCategory(txnCategory);
 
-    const txnAccount = getAccountById(transaction.account_id);
-    if (txnAccount) setAccount(txnAccount);
+      const txnAccount = getAccountById(transaction.account_id);
+      if (txnAccount) setAccount(txnAccount);
 
-    setLoading(false);
+      setLoading(false);
+    };
+
+    loadTransaction();
   }, [id]);
 
   const categoryType: CategoryType = type === "income" ? "income" : "expense";

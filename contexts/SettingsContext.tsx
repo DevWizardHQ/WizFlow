@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 export interface Settings {
     theme: 'light' | 'dark' | 'system';
     currency: string;
+    currencySymbol: string;
     dateFormat: string;
     defaultAccountId: number | null;
     firstDayOfWeek: number; // 0 = Sunday, 1 = Monday
@@ -12,9 +13,10 @@ export interface Settings {
 // Default settings
 const DEFAULT_SETTINGS: Settings = {
     theme: 'system',
-    currency: 'USD',
+    currency: 'BDT',
+    currencySymbol: '৳',
     dateFormat: 'MM/dd/yyyy',
-    defaultAccountId: null,
+    defaultAccountId: 1,
     firstDayOfWeek: 0,
 };
 

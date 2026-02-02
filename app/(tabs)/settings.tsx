@@ -44,6 +44,9 @@ export default function SettingsScreen() {
     { label: "JPY (¥)", value: "JPY" },
     { label: "CAD ($)", value: "CAD" },
     { label: "AUD ($)", value: "AUD" },
+    { label: "BDT (৳)", value: "BDT" },
+    { label: "CNY (¥)", value: "CNY" },
+    { label: "INR (₹)", value: "INR" }
   ];
 
   const dateFormatOptions: PickerOption[] = [
@@ -57,6 +60,19 @@ export default function SettingsScreen() {
     { label: "Monday", value: 1 },
   ];
 
+  // Currency to symbol mapping
+  const currencySymbolMap: Record<string, string> = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    JPY: "¥",
+    CAD: "$",
+    AUD: "$",
+    BDT: "৳",
+    CNY: "¥",
+    INR: "₹",
+  };
+
   const accountOptions: PickerOption[] = [
     { label: "None", value: -1 },
     ...accounts.map((acc) => ({ label: acc.name, value: acc.id })),
@@ -66,6 +82,13 @@ export default function SettingsScreen() {
   const defaultAccountValue = settings.defaultAccountId ?? -1;
   const updateDefaultAccount = (val: number) => {
     updateSetting("defaultAccountId", val === -1 ? null : val);
+  };
+
+  // Handle currency change - also update currency symbol
+  const handleCurrencyChange = (currency: string) => {
+    updateSetting("currency", currency);
+    const symbol = currencySymbolMap[currency] || "৳";
+    updateSetting("currencySymbol", symbol);
   };
 
   const handleResetData = () => {
@@ -143,7 +166,7 @@ export default function SettingsScreen() {
             label="Currency"
             value={settings.currency}
             options={currencyOptions}
-            onValueChange={(val) => updateSetting("currency", val)}
+            onValueChange={handleCurrencyChange}
             icon="cash"
           />
           <SettingPicker

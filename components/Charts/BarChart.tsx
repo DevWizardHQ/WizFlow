@@ -72,7 +72,8 @@ export function BarChart({
             backgroundGradientTo: backgroundColor,
             decimalPlaces: 0,
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: textColor,
+            // labelColor must be a function: (opacity)=>string
+            labelColor: (opacity = 1) => textColor,
             style: {
               borderRadius: 16,
             },

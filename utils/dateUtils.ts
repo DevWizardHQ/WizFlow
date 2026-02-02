@@ -15,7 +15,9 @@ import {
   format,
   eachDayOfInterval,
   eachWeekOfInterval,
-  eachMonthOfInterval
+  eachMonthOfInterval,
+  isValid,
+  parseISO
 } from 'date-fns';
 
 /**
@@ -118,31 +120,57 @@ export function getMonthsInPeriod(period: Period): Date[] {
 }
 
 /**
+ * Safely convert various inputs to a valid Date or return null.
+ * Accepts Date | string | number | null | undefined.
+ */
+function toDate(input: Date | string | number | null | undefined): Date | null {
+  if (input === null || input === undefined) return null;
+  if (input instanceof Date) return isValid(input) ? input : null;
+  if (typeof input === 'number') {
+    const d = new Date(input);
+    return isValid(d) ? d : null;
+  }
+  if (typeof input === 'string') {
+    // Try ISO parse first, then fall back to the Date constructor for other formats
+    let d = parseISO(input);
+    if (!isValid(d)) {
+      d = new Date(input);
+    }
+    return isValid(d) ? d : null;
+  }
+  return null;
+}
+
+/**
  * Format date for display
  */
-export function formatDate(date: Date): string {
-  return format(date, 'MMM dd, yyyy');
+export function formatDate(date: Date | string | number | null | undefined): string {
+  const dt = toDate(date);
+  return dt ? format(dt, 'MMM dd, yyyy') : '';
 }
 
 /**
  * Format date with time for display
  */
-export function formatDateTime(date: Date): string {
-  return format(date, 'MMM dd, yyyy HH:mm');
+export function formatDateTime(date: Date | string | number | null | undefined): string {
+  const dt = toDate(date);
+  return dt ? format(dt, 'MMM dd, yyyy HH:mm') : '';
 }
 
 /**
  * Format short date for charts
  */
-export function formatShortDate(date: Date): string {
-  return format(date, 'MMM dd');
+export function formatShortDate(date: Date | string | number | null | undefined): string {
+  const dt = toDate(date);
+  return dt ? format(dt, 'MMM dd') : '';
 }
 
 /**
  * Format month for charts
  */
-export function formatMonth(date: Date): string {
-  return format(date, 'MMM');
+export function formatMonth(date: Date | string | number | null | undefined): string {
+  const dt = toDate(date);
+  return dt ? format(dt, 'MMM') : '';
 }
 
 /**

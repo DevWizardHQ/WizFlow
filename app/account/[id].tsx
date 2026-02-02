@@ -178,22 +178,19 @@ export default function EditAccountScreen() {
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        {/* Stack.Screen should be inside the conditional rendering */}
-        <Stack.Screen
-          options={{
-              backButton: () => (
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                  <Ionicons name="close" size={24} color={textColor} />
-                </TouchableOpacity>
-              ),
-            headerTitle: "Edit Account",
-            headerRight: () => (
-              <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-               <ThemedText style={styles.saveButtonText}>Save</ThemedText>
-              </TouchableOpacity>
-            ),
-          }}
-        />
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
+            <Ionicons name="close" size={24} color={textColor} />
+          </TouchableOpacity>
+          <ThemedText type="subtitle">Edit Account</ThemedText>
+          <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
+            <ThemedText style={styles.saveButtonText}>Save</ThemedText>
+          </TouchableOpacity>
+        </View>
 
         <ScrollView
           style={styles.form}

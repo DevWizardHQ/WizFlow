@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { format } from 'date-fns';
 
 import { ThemedText } from "@/components/themed-text";
+import { useSettings } from "@/contexts/SettingsContext";
 import { useThemeColor } from '@/hooks/use-theme-color';
 import type { Transaction } from "@/types";
 import { getCategoryByName } from "@/database";
@@ -23,6 +24,8 @@ export function TransactionItem({
   onPress,
 }: TransactionItemProps) {
     const textColor = useThemeColor({}, 'text');
+    const { settings } = useSettings();
+
   const category = getCategoryByName(transaction.category);
 
   const isIncome = transaction.type === "income";
@@ -31,7 +34,7 @@ export function TransactionItem({
   const amountPrefix = isIncome ? "+" : isTransfer ? "" : "-";
 
   const formatAmount = (amount: number) => {
-    return `${amountPrefix}$${Math.abs(amount).toFixed(2)}`;
+    return `${amountPrefix}${settings.currencySymbol}${Math.abs(amount).toFixed(2)}`;
   };
 
   const categoryIcon = category?.icon || "help-circle";

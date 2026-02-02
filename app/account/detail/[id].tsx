@@ -13,6 +13,7 @@ import { ThemedView } from "@/components/themed-view";
 import { AccountIcon } from "@/components/AccountIcon";
 import { TransactionList } from "@/components/TransactionList";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { useSettings } from "@/contexts/SettingsContext";
 import { getAccountById, getTransactionsWithAccounts } from "@/database";
 import { CURRENCIES } from "@/utils/constants";
 import type { Account, TransactionWithAccount } from "@/types";
@@ -26,6 +27,7 @@ export default function AccountDetailScreen() {
   const [transactions, setTransactions] = useState<TransactionWithAccount[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { settings } = useSettings();
 
   const loadData = useCallback(async () => {
     if (!id) return;
@@ -72,7 +74,7 @@ export default function AccountDetailScreen() {
   };
 
   const handleTransactionPress = (transaction: TransactionWithAccount) => {
-    router.push(`/transaction/detail/${transaction.id}`);
+    router.push(`/transaction/${transaction.id}`);
   };
 
   const handleAddTransaction = () => {
@@ -90,7 +92,7 @@ export default function AccountDetailScreen() {
   }
 
   const currencySymbol =
-    CURRENCIES.find((c) => c.code === account.currency)?.symbol || "$";
+    CURRENCIES.find((c) => c.code === account.currency)?.symbol || settings.currencySymbol;
   const formatBalance = (balance: number) => {
     const prefix = balance < 0 ? "-" : "";
     return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
@@ -98,17 +100,26 @@ export default function AccountDetailScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerTitle: account.name,
-          headerRight: () => (
+      <SafeAreaView style={[styles.container, { backgroundColor }]} edges={["top"]}>
+        {/* Header */}
+        <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={styles.backButton}
+            >
+              <Ionicons name="arrow-back" size={24} color={textColor} />
+            </TouchableOpacity>
+            <ThemedText
+              type="subtitle"
+              numberOfLines={1}
+              style={styles.headerTitle}
+            >
+              {account.name}
+            </ThemedText>
             <TouchableOpacity onPress={handleEditAccount} style={styles.editButton}>
               <Ionicons name="pencil" size={20} color={textColor} />
             </TouchableOpacity>
-          ),
-        }}
-      />
-      <SafeAreaView style={[styles.container, { backgroundColor }]}>
+        </View>
         {/* Account Info Card */}
         <ThemedView style={styles.accountCard}>
           <AccountIcon icon={account.icon} color={account.color} size="large" />
@@ -163,6 +174,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(128, 128, 128, 0.3)",
+  },
+  backButton: {
+    padding: 4,
+    marginRight: 12,
+  },
+  headerTitle: {
+    flex: 1,
   },
   editButton: {
     padding: 8,
