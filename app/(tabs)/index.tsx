@@ -142,6 +142,8 @@ const styles = StyleSheet.create({
   balanceAmount: {
     fontSize: 36,
     fontWeight: "700",
+    lineHeight: 44,
+    textAlign: "center",
   },
   transactionsSection: {
     flex: 1,

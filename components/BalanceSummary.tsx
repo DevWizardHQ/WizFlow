@@ -64,6 +64,8 @@ const styles = StyleSheet.create({
   balance: {
     fontSize: 36,
     fontWeight: "700",
+    lineHeight: 44,
+    textAlign: "center",
   },
   accountCount: {
     fontSize: 13,
