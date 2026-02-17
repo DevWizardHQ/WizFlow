@@ -5,11 +5,10 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import { PieChart as RNPieChart } from "react-native-chart-kit";
-
+import { useSettings } from "@/contexts/SettingsContext";
 import { ThemedText } from "@/components/themed-text";
 import { useThemeColor } from "@/hooks/use-theme-color";
 import type { CategoryBreakdown } from "@/services/analyticsService";
-// import { formatShortDate } from '@/utils/dateUtils';
 
 interface PieChartProps {
   data: CategoryBreakdown[];
@@ -27,6 +26,7 @@ export function PieChart({
   onSlicePress,
 }: PieChartProps) {
   const textColor = useThemeColor({}, "text");
+  const { settings } = useSettings();
   //   const backgroundColor = useThemeColor({}, 'background');
 
   // Prepare data for react-native-chart-kit
@@ -38,15 +38,10 @@ export function PieChart({
     legendFontSize: 12,
   }));
 
-  //   const handleSlicePress = (event: any) => {
-  //     if (onSlicePress && event && event !== '') {
-  //       const index = parseInt(event, 10);
-  //       const item = data[index];
-  //       if (item) {
-  //         onSlicePress(item);
-  //       }
-  //     }
-  //   };
+  const formatBalance = (balance: number) => {
+   const prefix = balance >= 0 ? "" : "-";
+   return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
+  };
 
   return (
     <View style={{ alignItems: "center" }}>
@@ -64,7 +59,7 @@ export function PieChart({
         accessor="population"
         backgroundColor="transparent"
         paddingLeft="15"
-        center={[10, 10]}
+        center={[15, 15]}
         absolute
         hasLegend={false}
       />
@@ -94,7 +89,7 @@ export function PieChart({
               {item.category} ({item.percentage}%)
             </ThemedText>
             <ThemedText style={{ fontSize: 14, fontWeight: "600" }}>
-              ${item.amount.toFixed(2)}
+              {formatBalance(item.amount)}
             </ThemedText>
           </View>
         ))}

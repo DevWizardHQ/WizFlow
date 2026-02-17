@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="style: center balance amount">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/stats.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/BalanceSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/BalanceSummary.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Charts/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Charts/PieChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PeriodSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PeriodSelector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/SummaryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SummaryCard.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +25,13 @@
       <entry key="_/Users/shazeedul/App/WizFlowApp" value="387r8TMV695NZxKc6FrazLddYHF" />
       <entry key="_C:/Users/syeds/StudioProjects/WizFlow" value="397sty3wzMy8NdoiQWaZypETa5T" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="Auto" />
+      <entry key="agent-panel" value="Auto" />
+      <entry key="edit-panel" value="GPT-5 mini" />
+    </selectedModels>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -141,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769972988926</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="style: center balance amount">
+      <option name="closed" value="true" />
+      <created>1771260033821</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1771260033821</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -153,7 +170,8 @@
     <MESSAGE value="fixup! account page" />
     <MESSAGE value="fixup! package json" />
     <MESSAGE value="fix account css" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix account css" />
+    <MESSAGE value="style: center balance amount" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: center balance amount" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

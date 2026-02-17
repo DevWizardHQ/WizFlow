@@ -4,7 +4,7 @@
 
 import React from "react";
 import { View } from "react-native";
-
+import { useSettings } from "@/contexts/SettingsContext";
 import { ThemedText } from "@/components/themed-text";
 import { useThemeColor } from "@/hooks/use-theme-color";
 
@@ -17,6 +17,7 @@ interface SummaryCardProps {
 
 export function SummaryCard({ label, amount, type, trend }: SummaryCardProps) {
   const textColor = useThemeColor({}, "text");
+  const { settings } = useSettings();
 
   const getColor = () => {
     if (type === "income") return "#4CAF50";
@@ -32,11 +33,16 @@ export function SummaryCard({ label, amount, type, trend }: SummaryCardProps) {
     return null;
   };
 
+  const formatBalance = (balance: number) => {
+    const prefix = balance >= 0 ? "" : "-";
+    return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
+  };
+
   return (
     <View style={styles.container}>
       <ThemedText style={styles.label}>{label}</ThemedText>
       <ThemedText style={[styles.amount, { color: getColor() }]}>
-        ${amount >= 0 ? "+" : ""}${Math.abs(amount).toFixed(2)}
+        {formatBalance(amount)}
       </ThemedText>
 
       {trend !== undefined && (
@@ -64,9 +70,10 @@ const styles = {
     backgroundColor: "rgba(128, 128, 128, 0.05)",
   },
   label: {
-    fontSize: 14,
+    fontSize: 12,
     opacity: 0.7,
     marginBottom: 8,
+    textAlign: "start" as const,
   },
   amount: {
     fontSize: 20,
