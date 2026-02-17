@@ -66,7 +66,7 @@ const styles = {
     marginHorizontal: 4,
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "500" as const,
   },
 };

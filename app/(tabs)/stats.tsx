@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { useThemeColor } from "@/hooks/use-theme-color";
-
+import { useSettings } from "@/contexts/SettingsContext";
 import { SummaryCard } from "@/components/SummaryCard";
 import { PeriodSelector } from "@/components/PeriodSelector";
 import { PieChart } from "@/components/Charts/PieChart";
@@ -30,6 +30,7 @@ import { EmptyState } from "@/components/EmptyState";
 
 export default function StatsScreen() {
   const backgroundColor = useThemeColor({}, "background");
+  const { settings } = useSettings();
 
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<Period>("thisMonth");
@@ -43,6 +44,10 @@ export default function StatsScreen() {
     null,
   );
 
+  const formatBalance = (balance: number) => {
+    const prefix = balance >= 0 ? "" : "-";
+    return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
+  };
 
   const loadAnalyticsData = useCallback(
     async (selectedPeriod: Period) => {
@@ -123,7 +128,6 @@ export default function StatsScreen() {
           />
         ) : (
           <>
-
             {/* Summary Cards */}
             <ThemedView style={styles.summaryRow}>
               <SummaryCard
@@ -174,7 +178,7 @@ export default function StatsScreen() {
                       {item.category}
                     </ThemedText>
                     <ThemedText style={styles.categoryAmount}>
-                      ${item.amount.toFixed(2)}
+                      {formatBalance(item.amount)}
                     </ThemedText>
                   </ThemedView>
                 ))}
@@ -204,7 +208,7 @@ export default function StatsScreen() {
                   {selectedSlice.category}
                 </ThemedText>
                 <ThemedText type="subtitle" style={styles.selectedAmount}>
-                  ${selectedSlice.amount.toFixed(2)}
+                  {formatBalance(selectedSlice.amount)}
                 </ThemedText>
                 <ThemedText type="default" style={styles.selectedPercentage}>
                   {selectedSlice.percentage}% of total spending
@@ -251,7 +255,8 @@ const styles = StyleSheet.create({
   summaryRow: {
     flexDirection: "row" as const,
     gap: 12,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   topCategories: {
     marginTop: 16,

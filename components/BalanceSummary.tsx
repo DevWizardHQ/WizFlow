@@ -4,7 +4,7 @@
 
 import React from "react";
 import { StyleSheet } from "react-native";
-
+import { useSettings } from "@/contexts/SettingsContext";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { CURRENCIES } from "@/utils/constants";
@@ -20,12 +20,10 @@ export function BalanceSummary({
   currency = "USD",
   accountCount,
 }: BalanceSummaryProps) {
-  const currencySymbol =
-    CURRENCIES.find((c) => c.code === currency)?.symbol || "$";
-
+  const { settings } = useSettings();
   const formatBalance = (balance: number) => {
     const prefix = balance < 0 ? "-" : "";
-    return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
+    return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
   return (
