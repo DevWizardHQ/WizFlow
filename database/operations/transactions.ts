@@ -275,6 +275,31 @@ export async function deleteTransaction(id: number): Promise<void> {
 }
 
 /**
+ * Get all transactions (alias for getTransactions with no required filters)
+ */
+export async function getAllTransactions(filters: TransactionFilters = {}): Promise<Transaction[]> {
+  return getTransactions(filters);
+}
+
+/**
+ * Bulk insert transactions without triggering balance adjustments (used for restore)
+ */
+export function bulkInsertTransactions(transactions: Transaction[]): void {
+  const db = getDbInstance();
+  for (const tx of transactions) {
+    db.runSync(
+      `INSERT INTO transactions (id, title, amount, type, account_id, to_account_id, category, tags, note, attachment_uri, location_lat, location_lng, date, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        tx.id, tx.title, tx.amount, tx.type, tx.account_id, tx.to_account_id ?? null,
+        tx.category, tx.tags ?? null, tx.note ?? null, tx.attachment_uri ?? null,
+        tx.location_lat ?? null, tx.location_lng ?? null, tx.date, tx.created_at,
+      ]
+    );
+  }
+}
+
+/**
  * Get transaction count
  */
 export async function getTransactionCount(filters: TransactionFilters = {}): Promise<number> {

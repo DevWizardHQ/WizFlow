@@ -1,18 +1,18 @@
-import { db } from '../db';
+import { getDbInstance } from '../db';
 
-export const getSettings = async () => {
-  const settings = {};
-  const allSettings = await db.getAllAsync('SELECT * FROM settings');
+export const getSettings = async (): Promise<Record<string, string>> => {
+  const db = getDbInstance();
+  const settings: Record<string, string> = {};
+  const allSettings = db.getAllSync<{ key: string; value: string }>('SELECT * FROM settings');
   allSettings.forEach(setting => {
-    settings[setting.key] = JSON.parse(setting.value);
+    settings[setting.key] = setting.value;
   });
   return settings;
 };
 
-export const setSettings = async (settings) => {
-  const statement = await db.prepareAsync('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)');
+export const setSettings = async (settings: Record<string, string>): Promise<void> => {
+  const db = getDbInstance();
   for (const [key, value] of Object.entries(settings)) {
-    await statement.executeAsync(key, JSON.stringify(value));
+    db.runSync('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', [key, value]);
   }
-  await statement.finalizeAsync();
 };
