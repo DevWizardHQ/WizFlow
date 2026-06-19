@@ -5,19 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="style: center balance amount">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/settings.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/stats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/account/detail/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/account/detail/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/backup/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/categories/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/BalanceSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/BalanceSummary.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/CategorySection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategorySection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PeriodSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PeriodSelector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/TransactionGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionGroup.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/TransactionItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/TransactionList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/theme.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contexts/SettingsContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/contexts/SettingsContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/db.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/operations/accounts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/operations/accounts.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/operations/categories.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/operations/categories.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/operations/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/operations/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/operations/settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/operations/settings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/operations/transactions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/operations/transactions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seed.ts" beforeDir="false" afterPath="$PROJECT_DIR$/database/seed.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-color-scheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-color-scheme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-color-scheme.web.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-color-scheme.web.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-theme-color.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-theme-color.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

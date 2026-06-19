@@ -3,9 +3,13 @@
  * Seeds default categories and initial account on first run
  */
 
-import { getDbInstance } from './db';
-import { createAccount } from './operations/accounts';
-import { DEFAULT_ACCOUNT, DEFAULT_CATEGORIES, DEFAULT_CURRENCY } from '@/utils/constants';
+import { getDbInstance } from "./db";
+import { createAccount } from "./operations/accounts";
+import {
+  DEFAULT_ACCOUNT,
+  DEFAULT_CATEGORIES,
+  DEFAULT_CURRENCY,
+} from "@/utils/constants";
 
 /**
  * Check if categories have been seeded
@@ -13,7 +17,7 @@ import { DEFAULT_ACCOUNT, DEFAULT_CATEGORIES, DEFAULT_CURRENCY } from '@/utils/c
 function isCategoriesSeeded(): boolean {
   const db = getDbInstance();
   const result = db.getFirstSync<{ count: number }>(
-    'SELECT COUNT(*) as count FROM categories'
+    "SELECT COUNT(*) as count FROM categories",
   );
   return (result?.count ?? 0) > 0;
 }
@@ -23,7 +27,7 @@ function isCategoriesSeeded(): boolean {
  */
 function seedCategories(): void {
   if (isCategoriesSeeded()) {
-    console.log('Categories already seeded, skipping');
+    console.log("Categories already seeded, skipping");
     return;
   }
 
@@ -31,7 +35,7 @@ function seedCategories(): void {
 
   const stmt = db.prepareSync(
     `INSERT INTO categories (name, icon, color, type, sort_order, is_custom)
-     VALUES (?, ?, ?, ?, ?, 0)`
+     VALUES (?, ?, ?, ?, ?, 0)`,
   );
 
   try {
@@ -56,7 +60,7 @@ function seedCategories(): void {
 function isAccountsSeeded(): boolean {
   const db = getDbInstance();
   const result = db.getFirstSync<{ count: number }>(
-    'SELECT COUNT(*) as count FROM accounts'
+    "SELECT COUNT(*) as count FROM accounts",
   );
   return (result?.count ?? 0) > 0;
 }
@@ -66,7 +70,7 @@ function isAccountsSeeded(): boolean {
  */
 function seedInitialAccount(): void {
   if (isAccountsSeeded()) {
-    console.log('Accounts already seeded, skipping');
+    console.log("Accounts already seeded, skipping");
     return;
   }
 
@@ -79,7 +83,7 @@ function seedInitialAccount(): void {
     });
     console.log(`Seeded initial account with ID: ${accountId}`);
   } catch (error) {
-    console.error('Error seeding initial account:', error);
+    console.error("Error seeding initial account:", error);
   }
 }
 

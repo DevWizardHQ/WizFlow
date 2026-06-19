@@ -3,13 +3,13 @@
  */
 
 // Account types enum
-export type AccountType = 'general' | 'cash' | 'bank' | 'credit' | 'investment';
+export type AccountType = "general" | "cash" | "bank" | "credit" | "investment";
 
 // Transaction types enum
-export type TransactionType = 'income' | 'expense' | 'transfer';
+export type TransactionType = "income" | "expense" | "transfer";
 
 // Category types enum
-export type CategoryType = 'income' | 'expense';
+export type CategoryType = "income" | "expense";
 
 /**
  * Account interface - represents a financial account
@@ -62,14 +62,16 @@ export interface Transaction {
 /**
  * Input types for creating new records (omit auto-generated fields)
  */
-export type CreateAccountInput = Omit<Account, 'id' | 'created_at'>;
-export type UpdateAccountInput = Partial<Omit<Account, 'id' | 'created_at'>>;
+export type CreateAccountInput = Omit<Account, "id" | "created_at">;
+export type UpdateAccountInput = Partial<Omit<Account, "id" | "created_at">>;
 
-export type CreateCategoryInput = Omit<Category, 'id'>;
-export type UpdateCategoryInput = Partial<Omit<Category, 'id'>>;
+export type CreateCategoryInput = Omit<Category, "id">;
+export type UpdateCategoryInput = Partial<Omit<Category, "id">>;
 
-export type CreateTransactionInput = Omit<Transaction, 'id' | 'created_at'>;
-export type UpdateTransactionInput = Partial<Omit<Transaction, 'id' | 'created_at'>>;
+export type CreateTransactionInput = Omit<Transaction, "id" | "created_at">;
+export type UpdateTransactionInput = Partial<
+  Omit<Transaction, "id" | "created_at">
+>;
 
 /**
  * Transaction with joined account data for display
@@ -80,4 +82,3 @@ export interface TransactionWithAccount extends Transaction {
   account_color?: string;
   to_account_name?: string;
 }
-

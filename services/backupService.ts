@@ -2,10 +2,14 @@
  * Service for creating and managing backups
  */
 
-import { getAllAccounts, getAllCategories, getAllTransactions } from '@/database/operations';
-import { getSettings } from '@/database/operations/settings';
-import { Paths, File } from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
+import {
+  getAllAccounts,
+  getAllCategories,
+  getAllTransactions,
+} from "@/database/operations";
+import { getSettings } from "@/database/operations/settings";
+import { Paths, File } from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 const BACKUP_VERSION = 1;
 
@@ -26,7 +30,10 @@ export async function createBackup() {
         const content = await file.base64();
         attachments[transaction.attachment_uri] = content;
       } catch (error) {
-        console.error(`Failed to read attachment: ${transaction.attachment_uri}`, error);
+        console.error(
+          `Failed to read attachment: ${transaction.attachment_uri}`,
+          error,
+        );
       }
     }
   }
@@ -53,15 +60,15 @@ export async function packageAndShareBackup() {
   const backupJson = await createBackup();
   const backupFile = new File(
     Paths.document,
-    `WizFlow_Backup_${new Date().toISOString().split('T')[0]}.json`
+    `WizFlow_Backup_${new Date().toISOString().split("T")[0]}.json`,
   );
 
   backupFile.write(backupJson);
 
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(backupFile.uri, {
-      mimeType: 'application/json',
-      dialogTitle: 'Share your backup file',
+      mimeType: "application/json",
+      dialogTitle: "Share your backup file",
     });
   }
 }

@@ -2,12 +2,12 @@
  * TransactionList - Scrollable list with date-grouped transactions
  */
 
-import React, { useMemo } from "react";
-import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { format } from "date-fns";
+import { useMemo } from "react";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 
-import { TransactionGroup } from "@/components/TransactionGroup";
 import { EmptyState } from "@/components/EmptyState";
+import { TransactionGroup } from "@/components/TransactionGroup";
 import type { TransactionWithAccount } from "@/types";
 
 interface TransactionListProps {
@@ -25,7 +25,7 @@ export function TransactionList({
   onRefresh,
   showAccountInfo = true, // Default to true
 }: TransactionListProps) {
-  const safeTransactions = transactions || [];
+  const safeTransactions = useMemo(() => transactions || [], [transactions]);
 
   // Group transactions by date
   const groupedTransactions = useMemo(() => {

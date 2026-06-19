@@ -2,14 +2,12 @@
  * CategorySection - Section with header and list of categories
  */
 
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
+import { CategoryItem } from "@/components/CategoryItem";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { CategoryItem } from "@/components/CategoryItem";
-import { useThemeColor } from "@/hooks/use-theme-color";
 import type { Category, CategoryType } from "@/types";
 
 interface CategorySectionProps {
@@ -27,8 +25,6 @@ export function CategorySection({
   onCategoryPress,
   onAddPress,
 }: CategorySectionProps) {
-  const textColor = useThemeColor({}, "text");
-
   return (
     <ThemedView style={styles.container}>
       <View style={styles.header}>

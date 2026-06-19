@@ -10,18 +10,20 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { TransactionItem } from "@/components/TransactionItem";
 import { useSettings } from "@/contexts/SettingsContext";
-import type { Transaction } from "@/types";
+import type { TransactionWithAccount } from "@/types";
 
 interface TransactionGroupProps {
   date: string;
-  transactions: Transaction[];
-  onTransactionPress?: (transaction: Transaction) => void;
+  transactions: TransactionWithAccount[];
+  onTransactionPress?: (transaction: TransactionWithAccount) => void;
+  showAccountInfo?: boolean;
 }
 
 export function TransactionGroup({
   date,
   transactions,
   onTransactionPress,
+  showAccountInfo = true,
 }: TransactionGroupProps) {
   const dateObj = new Date(date);
   const { settings } = useSettings();
@@ -70,6 +72,7 @@ export function TransactionGroup({
             key={transaction.id}
             transaction={transaction}
             onPress={onTransactionPress}
+            showAccountInfo={showAccountInfo}
           />
         ))}
       </View>

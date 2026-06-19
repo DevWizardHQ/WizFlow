@@ -2,9 +2,9 @@
  * Service for exporting data to CSV format
  */
 
-import { getAllTransactions, getAllAccounts } from '@/database/operations';
-import { Paths, File } from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
+import { getAllTransactions, getAllAccounts } from "@/database/operations";
+import { Paths, File } from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 /**
  * Converts an array of objects to a CSV string.
@@ -13,53 +13,56 @@ import * as Sharing from 'expo-sharing';
  */
 function toCSV(data: any[]): string {
   if (data.length === 0) {
-    return '';
+    return "";
   }
   const headers = Object.keys(data[0]);
   const csvRows = [];
-  csvRows.push(headers.join(','));
+  csvRows.push(headers.join(","));
 
   for (const row of data) {
-    const values = headers.map(header => {
-      const escaped = ('' + row[header]).replace(/"/g, '\""');
+    const values = headers.map((header) => {
+      const escaped = ("" + row[header]).replace(/"/g, '\""');
       return `"${escaped}"`;
     });
-    csvRows.push(values.join(','));
+    csvRows.push(values.join(","));
   }
 
-  return csvRows.join('\n');
+  return csvRows.join("\n");
 }
 
 /**
  * Exports all transactions to a CSV file and shares it.
  */
 export async function exportTransactionsCSV(startDate?: Date, endDate?: Date) {
-  const transactions = await getAllTransactions({ startDate: startDate?.toISOString(), endDate: endDate?.toISOString() });
+  const transactions = await getAllTransactions({
+    startDate: startDate?.toISOString(),
+    endDate: endDate?.toISOString(),
+  });
   const accounts = await getAllAccounts();
-  const accountMap = new Map(accounts.map(acc => [acc.id, acc.name]));
+  const accountMap = new Map(accounts.map((acc) => [acc.id, acc.name]));
 
-  const csvData = transactions.map(t => ({
+  const csvData = transactions.map((t) => ({
     Date: t.date,
     Title: t.title,
     Type: t.type,
-    Account: accountMap.get(t.account_id) || 'N/A',
+    Account: accountMap.get(t.account_id) || "N/A",
     Category: t.category,
     Amount: t.amount,
-    Note: t.note || '',
+    Note: t.note || "",
   }));
 
   const csvString = toCSV(csvData);
   const file = new File(
     Paths.document,
-    `WizFlow_Transactions_${new Date().toISOString().split('T')[0]}.csv`
+    `WizFlow_Transactions_${new Date().toISOString().split("T")[0]}.csv`,
   );
 
   file.write(csvString);
 
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(file.uri, {
-      mimeType: 'text/csv',
-      dialogTitle: 'Export Transactions as CSV',
+      mimeType: "text/csv",
+      dialogTitle: "Export Transactions as CSV",
     });
   }
 }
@@ -70,7 +73,7 @@ export async function exportTransactionsCSV(startDate?: Date, endDate?: Date) {
 export async function exportAccountsCSV() {
   const accounts = await getAllAccounts();
 
-  const csvData = accounts.map(acc => ({
+  const csvData = accounts.map((acc) => ({
     Name: acc.name,
     Balance: acc.balance,
     Currency: acc.currency,
@@ -80,15 +83,15 @@ export async function exportAccountsCSV() {
   const csvString = toCSV(csvData);
   const file = new File(
     Paths.document,
-    `WizFlow_Accounts_${new Date().toISOString().split('T')[0]}.csv`
+    `WizFlow_Accounts_${new Date().toISOString().split("T")[0]}.csv`,
   );
 
   file.write(csvString);
 
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(file.uri, {
-      mimeType: 'text/csv',
-      dialogTitle: 'Export Accounts as CSV',
+      mimeType: "text/csv",
+      dialogTitle: "Export Accounts as CSV",
     });
   }
 }

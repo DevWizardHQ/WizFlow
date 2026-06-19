@@ -3,9 +3,9 @@
  * Uses expo-sqlite with synchronous API
  */
 
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
 
-const DATABASE_NAME = 'wizflow.db';
+const DATABASE_NAME = "wizflow.db";
 
 /**
  * Get the database instance (synchronous)
@@ -35,4 +35,3 @@ export function closeDatabase(): void {
     dbInstance = null;
   }
 }
-

@@ -3,8 +3,8 @@
  * Handles schema creation and versioning
  */
 
-import type { SQLiteDatabase } from 'expo-sqlite';
-import { getDbInstance } from './db';
+import type { SQLiteDatabase } from "expo-sqlite";
+import { getDbInstance } from "./db";
 
 const CURRENT_VERSION = 2;
 
@@ -94,7 +94,7 @@ function createTables(db: SQLiteDatabase): void {
 function getCurrentVersion(db: SQLiteDatabase): number {
   try {
     const result = db.getFirstSync<{ version: number }>(
-      'SELECT MAX(version) as version FROM migrations'
+      "SELECT MAX(version) as version FROM migrations",
     );
     return result?.version ?? 0;
   } catch {
@@ -107,7 +107,7 @@ function getCurrentVersion(db: SQLiteDatabase): number {
  * Record migration version
  */
 function recordMigration(db: SQLiteDatabase, version: number): void {
-  db.runSync('INSERT INTO migrations (version) VALUES (?)', [version]);
+  db.runSync("INSERT INTO migrations (version) VALUES (?)", [version]);
 }
 
 /**
@@ -118,13 +118,15 @@ export function runMigrations(): void {
   const currentVersion = getCurrentVersion(db);
 
   if (currentVersion < CURRENT_VERSION) {
-    console.log(`Running migrations from v${currentVersion} to v${CURRENT_VERSION}`);
+    console.log(
+      `Running migrations from v${currentVersion} to v${CURRENT_VERSION}`,
+    );
 
     // Version 1: Initial schema
     if (currentVersion < 1) {
       createTables(db);
       recordMigration(db, 1);
-      console.log('Migration v1 applied: Initial schema created');
+      console.log("Migration v1 applied: Initial schema created");
     }
 
     // Version 2: Add settings table
@@ -136,10 +138,10 @@ export function runMigrations(): void {
         );
       `);
       recordMigration(db, 2);
-      console.log('Migration v2 applied: Settings table created');
+      console.log("Migration v2 applied: Settings table created");
     }
   } else {
-    console.log('Database is up to date');
+    console.log("Database is up to date");
   }
 }
 
@@ -150,7 +152,7 @@ export function isDatabaseInitialized(): boolean {
   try {
     const db = getDbInstance();
     const result = db.getFirstSync<{ count: number }>(
-      "SELECT COUNT(*) as count FROM sqlite_master WHERE type='table' AND name='accounts'"
+      "SELECT COUNT(*) as count FROM sqlite_master WHERE type='table' AND name='accounts'",
     );
     return (result?.count ?? 0) > 0;
   } catch {
@@ -164,12 +166,11 @@ export function isDatabaseInitialized(): boolean {
 export function resetDatabase(): void {
   const db = getDbInstance();
 
-  db.execSync('DROP TABLE IF EXISTS transactions');
-  db.execSync('DROP TABLE IF EXISTS categories');
-  db.execSync('DROP TABLE IF EXISTS accounts');
-  db.execSync('DROP TABLE IF EXISTS settings');
-  db.execSync('DROP TABLE IF EXISTS migrations');
+  db.execSync("DROP TABLE IF EXISTS transactions");
+  db.execSync("DROP TABLE IF EXISTS categories");
+  db.execSync("DROP TABLE IF EXISTS accounts");
+  db.execSync("DROP TABLE IF EXISTS settings");
+  db.execSync("DROP TABLE IF EXISTS migrations");
 
-  console.log('Database reset complete');
+  console.log("Database reset complete");
 }
-

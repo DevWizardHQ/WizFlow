@@ -2,28 +2,24 @@
  * TransactionItem - Single transaction row component
  */
 
-import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { format } from "date-fns";
-
 import { ThemedText } from "@/components/themed-text";
 import { useSettings } from "@/contexts/SettingsContext";
-import { useThemeColor } from "@/hooks/use-theme-color";
-import type { Transaction } from "@/types";
 import { getCategoryByName } from "@/database";
-import { CURRENCIES } from "@/utils/constants";
+import type { TransactionWithAccount } from "@/types";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 interface TransactionItemProps {
-  transaction: Transaction;
-  onPress?: (transaction: Transaction) => void;
+  transaction: TransactionWithAccount;
+  onPress?: (transaction: TransactionWithAccount) => void;
+  showAccountInfo?: boolean;
 }
 
 export function TransactionItem({
   transaction,
   onPress,
+  showAccountInfo = true,
 }: TransactionItemProps) {
-  const textColor = useThemeColor({}, "text");
   const { settings } = useSettings();
 
   const category = getCategoryByName(transaction.category);
@@ -67,6 +63,14 @@ export function TransactionItem({
           <ThemedText style={styles.category}>
             {transaction.category}
           </ThemedText>
+          {showAccountInfo && transaction.account_name && (
+            <ThemedText style={styles.accountName}>
+              • {transaction.account_name}
+              {transaction.to_account_name
+                ? ` → ${transaction.to_account_name}`
+                : ""}
+            </ThemedText>
+          )}
           {transaction.note && (
             <ThemedText style={styles.note} numberOfLines={1}>
               {transaction.note}
@@ -119,6 +123,11 @@ const styles = StyleSheet.create({
   category: {
     fontSize: 13,
     opacity: 0.6,
+  },
+  accountName: {
+    fontSize: 13,
+    opacity: 0.6,
+    marginLeft: 6,
   },
   note: {
     fontSize: 13,

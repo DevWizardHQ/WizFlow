@@ -2,14 +2,18 @@
  * Service for importing data from a CSV file
  */
 
-import * as DocumentPicker from 'expo-document-picker';
-import { File } from 'expo-file-system';
-import { createTransaction, getAllAccounts, getAllCategories } from '@/database/operations';
-import type { CreateTransactionInput } from '@/types';
+import * as DocumentPicker from "expo-document-picker";
+import { File } from "expo-file-system";
+import {
+  createTransaction,
+  getAllAccounts,
+  getAllCategories,
+} from "@/database/operations";
+import type { CreateTransactionInput } from "@/types";
 
 // RFC 4180-compliant CSV parser (handles quoted fields containing commas or newlines)
 function parseCSV(csv: string): any[] {
-  const lines = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+  const lines = csv.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
   if (lines.length < 2) return [];
 
   function parseRow(line: string): string[] {
@@ -18,7 +22,7 @@ function parseCSV(csv: string): any[] {
     while (i < line.length) {
       if (line[i] === '"') {
         // Quoted field
-        let value = '';
+        let value = "";
         i++; // skip opening quote
         while (i < line.length) {
           if (line[i] === '"' && line[i + 1] === '"') {
@@ -32,10 +36,10 @@ function parseCSV(csv: string): any[] {
           }
         }
         fields.push(value);
-        if (line[i] === ',') i++;
+        if (line[i] === ",") i++;
       } else {
         // Unquoted field
-        const end = line.indexOf(',', i);
+        const end = line.indexOf(",", i);
         if (end === -1) {
           fields.push(line.slice(i).trim());
           break;
@@ -71,7 +75,7 @@ function parseCSV(csv: string): any[] {
  */
 export async function previewTransactionsFromCSV() {
   const result = await DocumentPicker.getDocumentAsync({
-    type: 'text/csv',
+    type: "text/csv",
     copyToCacheDirectory: true,
   });
 
@@ -85,48 +89,54 @@ export async function previewTransactionsFromCSV() {
 
   const accounts = getAllAccounts();
   const categories = getAllCategories();
-  const accountMap = new Map(accounts.map(acc => [acc.name, acc.id]));
-  const categorySet = new Set(categories.map(cat => cat.name));
+  const accountMap = new Map(accounts.map((acc) => [acc.name, acc.id]));
+  const categorySet = new Set(categories.map((cat) => cat.name));
 
-  const transactionsToInsert: CreateTransactionInput[] = parsedData.map(row => {
-    const accountId = accountMap.get(row.Account);
-    if (!accountId) {
-      console.warn(`Skipping transaction with unknown account: ${row.Account}`);
-      return null;
-    }
+  const transactionsToInsert: CreateTransactionInput[] = parsedData
+    .map((row) => {
+      const accountId = accountMap.get(row.Account);
+      if (!accountId) {
+        console.warn(
+          `Skipping transaction with unknown account: ${row.Account}`,
+        );
+        return null;
+      }
 
-    if (!categorySet.has(row.Category)) {
-      console.warn(`Skipping transaction with unknown category: ${row.Category}`);
-      return null;
-    }
+      if (!categorySet.has(row.Category)) {
+        console.warn(
+          `Skipping transaction with unknown category: ${row.Category}`,
+        );
+        return null;
+      }
 
-    const amount = parseFloat(row.Amount);
-    if (isNaN(amount)) {
-      console.warn(`Skipping transaction with invalid amount: ${row.Amount}`);
-      return null;
-    }
+      const amount = parseFloat(row.Amount);
+      if (isNaN(amount)) {
+        console.warn(`Skipping transaction with invalid amount: ${row.Amount}`);
+        return null;
+      }
 
-    const date = new Date(row.Date);
-    if (isNaN(date.getTime())) {
-      console.warn(`Skipping transaction with invalid date: ${row.Date}`);
-      return null;
-    }
+      const date = new Date(row.Date);
+      if (isNaN(date.getTime())) {
+        console.warn(`Skipping transaction with invalid date: ${row.Date}`);
+        return null;
+      }
 
-    return {
-      title: row.Title,
-      amount,
-      type: row.Type.toLowerCase(),
-      account_id: accountId,
-      to_account_id: null,
-      category: row.Category,
-      tags: null,
-      date: date.toISOString(),
-      note: row.Note || null,
-      attachment_uri: null,
-      location_lat: null,
-      location_lng: null,
-    } as CreateTransactionInput;
-  }).filter(t => t !== null) as CreateTransactionInput[];
+      return {
+        title: row.Title,
+        amount,
+        type: row.Type.toLowerCase(),
+        account_id: accountId,
+        to_account_id: null,
+        category: row.Category,
+        tags: null,
+        date: date.toISOString(),
+        note: row.Note || null,
+        attachment_uri: null,
+        location_lat: null,
+        location_lng: null,
+      } as CreateTransactionInput;
+    })
+    .filter((t) => t !== null) as CreateTransactionInput[];
 
   return { transactionsToInsert, parsedData };
 }
@@ -134,7 +144,9 @@ export async function previewTransactionsFromCSV() {
 /**
  * Imports the provided transactions, updating account balances for each.
  */
-export async function importTransactions(transactions: CreateTransactionInput[]) {
+export async function importTransactions(
+  transactions: CreateTransactionInput[],
+) {
   for (const tx of transactions) {
     await createTransaction(tx);
   }

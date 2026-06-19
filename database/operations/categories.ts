@@ -2,8 +2,13 @@
  * Category database operations
  */
 
-import { getDbInstance } from '../db';
-import type { Category, CreateCategoryInput, UpdateCategoryInput, CategoryType } from '@/types';
+import { getDbInstance } from "../db";
+import type {
+  Category,
+  CreateCategoryInput,
+  UpdateCategoryInput,
+  CategoryType,
+} from "@/types";
 
 /**
  * Get all categories
@@ -11,7 +16,7 @@ import type { Category, CreateCategoryInput, UpdateCategoryInput, CategoryType }
 export function getAllCategories(): Category[] {
   const db = getDbInstance();
   return db.getAllSync<Category>(
-    'SELECT * FROM categories ORDER BY sort_order ASC'
+    "SELECT * FROM categories ORDER BY sort_order ASC",
   );
 }
 
@@ -21,8 +26,8 @@ export function getAllCategories(): Category[] {
 export function getCategoriesByType(type: CategoryType): Category[] {
   const db = getDbInstance();
   return db.getAllSync<Category>(
-    'SELECT * FROM categories WHERE type = ? ORDER BY sort_order ASC',
-    [type]
+    "SELECT * FROM categories WHERE type = ? ORDER BY sort_order ASC",
+    [type],
   );
 }
 
@@ -31,7 +36,9 @@ export function getCategoriesByType(type: CategoryType): Category[] {
  */
 export function getCategoryById(id: number): Category | null {
   const db = getDbInstance();
-  return db.getFirstSync<Category>('SELECT * FROM categories WHERE id = ?', [id]);
+  return db.getFirstSync<Category>("SELECT * FROM categories WHERE id = ?", [
+    id,
+  ]);
 }
 
 /**
@@ -39,7 +46,9 @@ export function getCategoryById(id: number): Category | null {
  */
 export function getCategoryByName(name: string): Category | null {
   const db = getDbInstance();
-  return db.getFirstSync<Category>('SELECT * FROM categories WHERE name = ?', [name]);
+  return db.getFirstSync<Category>("SELECT * FROM categories WHERE name = ?", [
+    name,
+  ]);
 }
 
 /**
@@ -57,7 +66,7 @@ export function createCategory(input: CreateCategoryInput): number {
       input.type,
       input.sort_order,
       input.is_custom,
-    ]
+    ],
   );
   return result.lastInsertRowId;
 }
@@ -72,25 +81,28 @@ export function updateCategory(id: number, input: UpdateCategoryInput): void {
   const values: (string | number)[] = [];
 
   if (input.name !== undefined) {
-    fields.push('name = ?');
+    fields.push("name = ?");
     values.push(input.name);
   }
   if (input.icon !== undefined) {
-    fields.push('icon = ?');
+    fields.push("icon = ?");
     values.push(input.icon);
   }
   if (input.color !== undefined) {
-    fields.push('color = ?');
+    fields.push("color = ?");
     values.push(input.color);
   }
   if (input.sort_order !== undefined) {
-    fields.push('sort_order = ?');
+    fields.push("sort_order = ?");
     values.push(input.sort_order);
   }
 
   if (fields.length > 0) {
     values.push(id);
-    db.runSync(`UPDATE categories SET ${fields.join(', ')} WHERE id = ?`, values);
+    db.runSync(
+      `UPDATE categories SET ${fields.join(", ")} WHERE id = ?`,
+      values,
+    );
   }
 }
 
@@ -99,7 +111,7 @@ export function updateCategory(id: number, input: UpdateCategoryInput): void {
  */
 export function deleteCategory(id: number): void {
   const db = getDbInstance();
-  db.runSync('DELETE FROM categories WHERE id = ?', [id]);
+  db.runSync("DELETE FROM categories WHERE id = ?", [id]);
 }
 
 /**
@@ -111,7 +123,15 @@ export function bulkInsertCategories(categories: Category[]): void {
     db.runSync(
       `INSERT INTO categories (id, name, icon, color, type, sort_order, is_custom)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [cat.id, cat.name, cat.icon, cat.color, cat.type, cat.sort_order, cat.is_custom]
+      [
+        cat.id,
+        cat.name,
+        cat.icon,
+        cat.color,
+        cat.type,
+        cat.sort_order,
+        cat.is_custom,
+      ],
     );
   }
 }
@@ -123,4 +143,3 @@ export function isCategoryCustom(id: number): boolean {
   const category = getCategoryById(id);
   return category?.is_custom === 1;
 }
-

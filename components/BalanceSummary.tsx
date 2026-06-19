@@ -2,12 +2,10 @@
  * BalanceSummary - Total balance display component
  */
 
-import React from "react";
-import { StyleSheet } from "react-native";
-import { useSettings } from "@/contexts/SettingsContext";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { CURRENCIES } from "@/utils/constants";
+import { useSettings } from "@/contexts/SettingsContext";
+import { StyleSheet } from "react-native";
 
 interface BalanceSummaryProps {
   totalBalance: number;

@@ -2,8 +2,7 @@
  * PeriodSelector component for filtering analytics by time period
  */
 
-import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { useThemeColor } from "@/hooks/use-theme-color";
@@ -16,7 +15,6 @@ interface PeriodSelectorProps {
 }
 
 export function PeriodSelector({ selected, onSelect }: PeriodSelectorProps) {
-  const backgroundColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
 
   return (
