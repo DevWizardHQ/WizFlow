@@ -18,10 +18,10 @@ export async function pickBackupFile() {
     copyToCacheDirectory: true,
   });
 
-  if (result.type === 'success') {
-    return result.uri;
+  if (result.canceled || !result.assets?.length) {
+    return null;
   }
-  return null;
+  return result.assets[0].uri;
 }
 
 /**

@@ -120,6 +120,20 @@ export function updateAccountBalance(id: number, amount: number): void {
 }
 
 /**
+ * Bulk insert accounts with original IDs preserved (used for restore)
+ */
+export function bulkInsertAccounts(accounts: Account[]): void {
+  const db = getDbInstance();
+  for (const acc of accounts) {
+    db.runSync(
+      `INSERT INTO accounts (id, name, balance, currency, icon, color, type, is_archived, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [acc.id, acc.name, acc.balance, acc.currency, acc.icon, acc.color, acc.type, acc.is_archived, acc.created_at]
+    );
+  }
+}
+
+/**
  * Get total balance across all active accounts
  */
 export function getTotalBalance(): number {

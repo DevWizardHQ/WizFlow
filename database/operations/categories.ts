@@ -103,6 +103,20 @@ export function deleteCategory(id: number): void {
 }
 
 /**
+ * Bulk insert categories with original IDs preserved (used for restore)
+ */
+export function bulkInsertCategories(categories: Category[]): void {
+  const db = getDbInstance();
+  for (const cat of categories) {
+    db.runSync(
+      `INSERT INTO categories (id, name, icon, color, type, sort_order, is_custom)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [cat.id, cat.name, cat.icon, cat.color, cat.type, cat.sort_order, cat.is_custom]
+    );
+  }
+}
+
+/**
  * Check if a category is custom (can be deleted)
  */
 export function isCategoryCustom(id: number): boolean {
