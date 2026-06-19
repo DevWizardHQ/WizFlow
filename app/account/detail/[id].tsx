@@ -2,26 +2,20 @@
  * Account Detail Screen - Shows account info and filtered transactions
  */
 
-import React, { useState, useCallback, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Stack,
-  router,
-  useLocalSearchParams,
-  useFocusEffect,
-} from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { AccountIcon } from "@/components/AccountIcon";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { AccountIcon } from "@/components/AccountIcon";
 import { TransactionList } from "@/components/TransactionList";
-import { useThemeColor } from "@/hooks/use-theme-color";
 import { useSettings } from "@/contexts/SettingsContext";
 import { getAccountById, getTransactionsWithAccounts } from "@/database";
-import { CURRENCIES } from "@/utils/constants";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import type { Account, TransactionWithAccount } from "@/types";
+import { CURRENCIES } from "@/utils/constants";
 
 export default function AccountDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

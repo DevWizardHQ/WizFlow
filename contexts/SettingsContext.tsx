@@ -8,6 +8,7 @@ export interface Settings {
     dateFormat: string;
     defaultAccountId: number | null;
     firstDayOfWeek: number; // 0 = Sunday, 1 = Monday
+    lastBackupDate: string | null;
 }
 
 // Default settings
@@ -18,6 +19,7 @@ const DEFAULT_SETTINGS: Settings = {
     dateFormat: 'MM/dd/yyyy',
     defaultAccountId: 1,
     firstDayOfWeek: 0,
+    lastBackupDate: null,
 };
 
 interface SettingsContextType {
@@ -52,6 +54,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 parsedSettings.defaultAccountId = Number(persistedSettings.defaultAccountId);
             }
             if (persistedSettings.firstDayOfWeek) parsedSettings.firstDayOfWeek = Number(persistedSettings.firstDayOfWeek);
+            if (persistedSettings.lastBackupDate) parsedSettings.lastBackupDate = persistedSettings.lastBackupDate;
 
             setSettingsState(parsedSettings);
         } catch (error) {

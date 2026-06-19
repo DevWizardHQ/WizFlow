@@ -2,7 +2,7 @@
  * Categories Management Screen
  */
 
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";

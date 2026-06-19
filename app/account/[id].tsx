@@ -2,31 +2,30 @@
  * Edit Account Screen
  */
 
-import React, { useState, useCallback, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import { router, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import {
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  TextInput,
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, router, useLocalSearchParams } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
 
-import { ThemedText } from "@/components/themed-text";
-// import { ThemedView } from '@/components/themed-view';
 import { AccountIcon } from "@/components/AccountIcon";
-import { IconPicker } from "@/components/IconPicker";
 import { ColorPicker } from "@/components/ColorPicker";
+import { IconPicker } from "@/components/IconPicker";
+import { ThemedText } from "@/components/themed-text";
+import { archiveAccount, getAccountById, updateAccount } from "@/database";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { getAccountById, updateAccount, archiveAccount } from "@/database";
-import { ACCOUNT_TYPES } from "@/utils/constants";
 import type { AccountType } from "@/types";
+import { ACCOUNT_TYPES } from "@/utils/constants";
 
 export default function EditAccountScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

@@ -2,34 +2,34 @@
  * Edit Category Screen
  */
 
-import React, { useState, useCallback, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import { router, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import {
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  TextInput,
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
 
 import { ThemedText } from "@/components/themed-text";
 // import { ThemedView } from '@/components/themed-view';
 import { CategoryIconPicker } from "@/components/CategoryIconPicker";
 import { ColorPicker } from "@/components/ColorPicker";
-import { useThemeColor } from "@/hooks/use-theme-color";
 import {
-  getCategoryById,
-  updateCategory,
   deleteCategory,
+  getCategoryById,
   //   getCategoriesByType,
   getTransactionCount,
+  updateCategory,
 } from "@/database";
+import { useThemeColor } from "@/hooks/use-theme-color";
 import type { CategoryType } from "@/types";
 
 export default function EditCategoryScreen() {
@@ -103,18 +103,24 @@ export default function EditCategoryScreen() {
     }
   }, [id, name, icon, color, validateForm]);
 
-  const handleDelete = useCallback(() => {
+  const performDelete = useCallback(() => {
+    try {
+      deleteCategory(parseInt(id!, 10));
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      router.back();
+    } catch (error) {
+      console.error("Failed to delete category:", error);
+      Alert.alert("Error", "Failed to delete category.");
+    }
+  }, [id]);
+
+  const handleDelete = useCallback(async () => {
     if (!id) return;
 
     // Check if any transactions use this category
-    const txnCount = getTransactionCount({ category: name });
+    const txnCount = await getTransactionCount({ category: name });
 
     if (txnCount > 0) {
-      // Show reassignment dialog
-      const alternativeCategories = getCategoriesByType(type).filter(
-        (c) => c.id !== parseInt(id, 10),
-      );
-
       Alert.alert(
         "Category In Use",
         `This category is used by ${txnCount} transaction(s). Please reassign them to another category before deleting, or delete anyway to leave those transactions with this category name.`,
@@ -142,17 +148,6 @@ export default function EditCategoryScreen() {
       );
     }
   }, [performDelete, id, name, type]);
-
-  const performDelete = useCallback(() => {
-    try {
-      deleteCategory(parseInt(id!, 10));
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.back();
-    } catch (error) {
-      console.error("Failed to delete category:", error);
-      Alert.alert("Error", "Failed to delete category.");
-    }
-  }, [id]);
 
   if (loading) {
     return (

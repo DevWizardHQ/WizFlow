@@ -187,7 +187,7 @@ export default function SettingsScreen() {
             label="Date Format"
             value={settings.dateFormat}
             options={dateFormatOptions}
-            onValueeChange={(val) => updateSetting("dateFormat", val)}
+            onValueChange={(val) => updateSetting("dateFormat", val)}
             icon="calendar"
           />
           <SettingPicker

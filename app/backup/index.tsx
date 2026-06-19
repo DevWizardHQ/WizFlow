@@ -2,15 +2,15 @@
  * Backup & Restore main screen
  */
 
-import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { Button } from "@/components/Button";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { Button } from "@/components/Button";
+import { useSettings } from "@/contexts/SettingsContext";
 import { packageAndShareBackup } from "@/services/backupService";
 import { pickBackupFile, restoreBackup } from "@/services/restoreService";
-import { useSettings } from "@/contexts/SettingsContext";
 import { format } from "date-fns";
+import { useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 
 export default function BackupScreen() {
   const [isRestoring, setIsRestoring] = useState(false);

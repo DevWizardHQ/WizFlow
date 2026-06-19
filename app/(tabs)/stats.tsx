@@ -1,32 +1,31 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, ScrollView, View, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { useThemeColor } from "@/hooks/use-theme-color";
-import { useSettings } from "@/contexts/SettingsContext";
-import { SummaryCard } from "@/components/SummaryCard";
-import { PeriodSelector } from "@/components/PeriodSelector";
-import { PieChart } from "@/components/Charts/PieChart";
 import { BarChart } from "@/components/Charts/BarChart";
 import { LineChart } from "@/components/Charts/LineChart";
+import { PieChart } from "@/components/Charts/PieChart";
+import { PeriodSelector } from "@/components/PeriodSelector";
+import { SummaryCard } from "@/components/SummaryCard";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useSettings } from "@/contexts/SettingsContext";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
-  getIncomeExpenseSummary,
   getCategoryBreakdown,
   getDailyTotals,
-  getWeeklyTotals,
+  getIncomeExpenseSummary,
   getMonthlyTotals,
   getTopCategories,
-  type IncomeExpenseSummary,
+  getWeeklyTotals,
   type CategoryBreakdown,
+  type IncomeExpenseSummary,
   type TimeSeriesPoint,
 } from "@/services/analyticsService";
 
-import type { Period } from "@/utils/dateUtils";
-import { getCategoriesByType } from "@/database";
 import { EmptyState } from "@/components/EmptyState";
+import { getCategoriesByType } from "@/database";
+import type { Period } from "@/utils/dateUtils";
 
 export default function StatsScreen() {
   const backgroundColor = useThemeColor({}, "background");

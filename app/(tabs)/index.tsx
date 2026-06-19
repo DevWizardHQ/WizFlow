@@ -1,16 +1,16 @@
-import { useState, useCallback } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useFocusEffect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { TransactionList } from "@/components/TransactionList";
 import { useSettings } from "@/contexts/SettingsContext";
+import { getTotalBalance, getTransactions } from "@/database";
 import { useThemeColor } from "@/hooks/use-theme-color";
-import { getTransactions, getTotalBalance } from "@/database";
 import type { Transaction } from "@/types";
 
 export default function HomeScreen() {
