@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="style: center balance amount">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/stats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/BalanceSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/BalanceSummary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Charts/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Charts/PieChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PeriodSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PeriodSelector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SummaryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SummaryCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/haptic-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/haptic-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/parallax-scroll-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/parallax-scroll-view.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/icon-symbol.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-theme-color.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-theme-color.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +81,7 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/shazeedul/App/WizFlowApp&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
 }</component>
   <component name="RecentsManager">
