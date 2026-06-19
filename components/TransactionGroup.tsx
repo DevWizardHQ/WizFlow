@@ -51,12 +51,14 @@ export function TransactionGroup({
         <View style={styles.totals}>
           {income > 0 && (
             <ThemedText style={styles.incomeTotal}>
-              +{settings.currencySymbol}{income.toFixed(2)}
+              +{settings.currencySymbol}
+              {income.toFixed(2)}
             </ThemedText>
           )}
           {expense > 0 && (
             <ThemedText style={styles.expenseTotal}>
-              -{settings.currencySymbol}{expense.toFixed(2)}
+              -{settings.currencySymbol}
+              {expense.toFixed(2)}
             </ThemedText>
           )}
         </View>

@@ -3,7 +3,7 @@
  */
 
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import { createTransaction, getAllAccounts, getAllCategories } from '@/database/operations';
 import type { CreateTransactionInput } from '@/types';
 
@@ -79,7 +79,8 @@ export async function previewTransactionsFromCSV() {
     return null;
   }
 
-  const csvContent = await FileSystem.readAsStringAsync(result.assets[0].uri);
+  const file = new File(result.assets[0].uri);
+  const csvContent = await file.text();
   const parsedData = parseCSV(csvContent);
 
   const accounts = getAllAccounts();

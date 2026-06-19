@@ -5,7 +5,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, router, useLocalSearchParams, useFocusEffect } from "expo-router";
+import {
+  Stack,
+  router,
+  useLocalSearchParams,
+  useFocusEffect,
+} from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 import { ThemedText } from "@/components/themed-text";
@@ -24,7 +29,9 @@ export default function AccountDetailScreen() {
   const textColor = useThemeColor({}, "text");
 
   const [account, setAccount] = useState<Account | null>(null);
-  const [transactions, setTransactions] = useState<TransactionWithAccount[]>([]);
+  const [transactions, setTransactions] = useState<TransactionWithAccount[]>(
+    [],
+  );
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const { settings } = useSettings();
@@ -41,7 +48,10 @@ export default function AccountDetailScreen() {
       }
       setAccount(acct);
 
-      const txns = await getTransactionsWithAccounts({ accountId: parseInt(id, 10), limit: 100 });
+      const txns = await getTransactionsWithAccounts({
+        accountId: parseInt(id, 10),
+        limit: 100,
+      });
       setTransactions(txns);
     } catch (error) {
       console.error("Error loading account details:", error);
@@ -92,7 +102,8 @@ export default function AccountDetailScreen() {
   }
 
   const currencySymbol =
-    CURRENCIES.find((c) => c.code === account.currency)?.symbol || settings.currencySymbol;
+    CURRENCIES.find((c) => c.code === account.currency)?.symbol ||
+    settings.currencySymbol;
   const formatBalance = (balance: number) => {
     const prefix = balance < 0 ? "-" : "";
     return `${prefix}${currencySymbol}${Math.abs(balance).toFixed(2)}`;
@@ -100,25 +111,31 @@ export default function AccountDetailScreen() {
 
   return (
     <>
-      <SafeAreaView style={[styles.container, { backgroundColor }]} edges={["top"]}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor }]}
+        edges={["top"]}
+      >
         {/* Header */}
         <View style={styles.header}>
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={styles.backButton}
-            >
-              <Ionicons name="arrow-back" size={24} color={textColor} />
-            </TouchableOpacity>
-            <ThemedText
-              type="subtitle"
-              numberOfLines={1}
-              style={styles.headerTitle}
-            >
-              {account.name}
-            </ThemedText>
-            <TouchableOpacity onPress={handleEditAccount} style={styles.editButton}>
-              <Ionicons name="pencil" size={20} color={textColor} />
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
+            <Ionicons name="arrow-back" size={24} color={textColor} />
+          </TouchableOpacity>
+          <ThemedText
+            type="subtitle"
+            numberOfLines={1}
+            style={styles.headerTitle}
+          >
+            {account.name}
+          </ThemedText>
+          <TouchableOpacity
+            onPress={handleEditAccount}
+            style={styles.editButton}
+          >
+            <Ionicons name="pencil" size={20} color={textColor} />
+          </TouchableOpacity>
         </View>
         {/* Account Info Card */}
         <ThemedView style={styles.accountCard}>

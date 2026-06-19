@@ -39,8 +39,8 @@ export function PieChart({
   }));
 
   const formatBalance = (balance: number) => {
-   const prefix = balance >= 0 ? "" : "-";
-   return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
+    const prefix = balance >= 0 ? "" : "-";
+    return `${prefix}${settings.currencySymbol}${Math.abs(balance).toFixed(2)}`;
   };
 
   return (

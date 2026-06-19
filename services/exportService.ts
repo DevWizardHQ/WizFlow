@@ -3,7 +3,7 @@
  */
 
 import { getAllTransactions, getAllAccounts } from '@/database/operations';
-import * as FileSystem from 'expo-file-system';
+import { Paths, File } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 /**
@@ -49,12 +49,15 @@ export async function exportTransactionsCSV(startDate?: Date, endDate?: Date) {
   }));
 
   const csvString = toCSV(csvData);
-  const filePath = `${FileSystem.documentDirectory}WizFlow_Transactions_${new Date().toISOString().split('T')[0]}.csv`;
+  const file = new File(
+    Paths.document,
+    `WizFlow_Transactions_${new Date().toISOString().split('T')[0]}.csv`
+  );
 
-  await FileSystem.writeAsStringAsync(filePath, csvString);
+  file.write(csvString);
 
   if (await Sharing.isAvailableAsync()) {
-    await Sharing.shareAsync(filePath, {
+    await Sharing.shareAsync(file.uri, {
       mimeType: 'text/csv',
       dialogTitle: 'Export Transactions as CSV',
     });
@@ -75,12 +78,15 @@ export async function exportAccountsCSV() {
   }));
 
   const csvString = toCSV(csvData);
-  const filePath = `${FileSystem.documentDirectory}WizFlow_Accounts_${new Date().toISOString().split('T')[0]}.csv`;
+  const file = new File(
+    Paths.document,
+    `WizFlow_Accounts_${new Date().toISOString().split('T')[0]}.csv`
+  );
 
-  await FileSystem.writeAsStringAsync(filePath, csvString);
+  file.write(csvString);
 
   if (await Sharing.isAvailableAsync()) {
-    await Sharing.shareAsync(filePath, {
+    await Sharing.shareAsync(file.uri, {
       mimeType: 'text/csv',
       dialogTitle: 'Export Accounts as CSV',
     });

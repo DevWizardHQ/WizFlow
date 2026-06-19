@@ -3,7 +3,7 @@
  */
 
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import { resetDatabase } from '@/database/migrations';
 import { bulkInsertAccounts, bulkInsertCategories, bulkInsertTransactions } from '@/database/operations';
 import { setSettings } from '@/database/operations/settings';
@@ -28,7 +28,8 @@ export async function pickBackupFile() {
  * Restores a backup from a file URI
  */
 export async function restoreBackup(uri: string) {
-  const backupJson = await FileSystem.readAsStringAsync(uri);
+  const backupFile = new File(uri);
+  const backupJson = await backupFile.text();
   const backupData = JSON.parse(backupJson);
 
   if (!backupData.version || backupData.version !== 1) {
@@ -42,9 +43,8 @@ export async function restoreBackup(uri: string) {
   if (backupData.data.attachments) {
     for (const [uri, content] of Object.entries(backupData.data.attachments)) {
       try {
-        await FileSystem.writeAsStringAsync(uri, content as string, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
+        const file = new File(uri);
+        file.write(content as string, { encoding: 'base64' });
       } catch (error) {
         console.error(`Failed to restore attachment: ${uri}`, error);
       }

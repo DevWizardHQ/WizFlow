@@ -86,7 +86,7 @@ export default function BackupScreen() {
         <Button
           title="Create Backup"
           onPress={handleBackup}
-          icon="archive-box-arrow-down"
+          icon="archive-arrow-down"
         />
       </View>
 
@@ -99,7 +99,7 @@ export default function BackupScreen() {
         <Button
           title="Restore from Backup"
           onPress={handleRestore}
-          icon="archive-box-arrow-up"
+          icon="archive-arrow-up"
           loading={isRestoring}
           variant="secondary"
         />

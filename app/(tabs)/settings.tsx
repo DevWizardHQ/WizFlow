@@ -46,7 +46,7 @@ export default function SettingsScreen() {
     { label: "AUD ($)", value: "AUD" },
     { label: "BDT (৳)", value: "BDT" },
     { label: "CNY (¥)", value: "CNY" },
-    { label: "INR (₹)", value: "INR" }
+    { label: "INR (₹)", value: "INR" },
   ];
 
   const dateFormatOptions: PickerOption[] = [

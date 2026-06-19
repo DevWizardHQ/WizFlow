@@ -5,14 +5,14 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 import { ThemedText } from "@/components/themed-text";
 import { useSettings } from "@/contexts/SettingsContext";
-import { useThemeColor } from '@/hooks/use-theme-color';
+import { useThemeColor } from "@/hooks/use-theme-color";
 import type { Transaction } from "@/types";
 import { getCategoryByName } from "@/database";
-import { CURRENCIES } from '@/utils/constants';
+import { CURRENCIES } from "@/utils/constants";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -23,8 +23,8 @@ export function TransactionItem({
   transaction,
   onPress,
 }: TransactionItemProps) {
-    const textColor = useThemeColor({}, 'text');
-    const { settings } = useSettings();
+  const textColor = useThemeColor({}, "text");
+  const { settings } = useSettings();
 
   const category = getCategoryByName(transaction.category);
 
