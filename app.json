@@ -20,7 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.shazeedul.WizFlowApp"
+      "package": "com.devwizard.WizFlow"
     },
     "web": {
       "output": "static",
