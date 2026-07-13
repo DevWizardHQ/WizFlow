@@ -7,8 +7,9 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { useColorScheme as useSystemColorScheme } from "react-native";
+import { Platform, useColorScheme as useSystemColorScheme } from "react-native";
 import "react-native-reanimated";
+import * as SQLite from "expo-sqlite";
 
 import { SettingsProvider, useSettings } from "@/contexts/SettingsContext";
 import { runMigrations, seedDatabase } from "@/database";
@@ -57,6 +58,10 @@ export default function RootLayout() {
   useEffect(() => {
     async function initializeApp() {
       try {
+        // Pre-open database asynchronously on web to warm up worker and compile WASM
+        if (Platform.OS === "web") {
+          await SQLite.openDatabaseAsync("wizflow.db");
+        }
         // Initialize database
         runMigrations();
         seedDatabase();

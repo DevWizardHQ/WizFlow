@@ -39,7 +39,6 @@ export default function EditAccountScreen() {
   const [icon, setIcon] = useState("wallet");
   const [color, setColor] = useState("#36A2EB");
   const [loading, setLoading] = useState(true);
-  const [currentAccount, setCurrentAccount] = useState<any>(null); // To hold account data
 
   // Modal state
   const [showIconPicker, setShowIconPicker] = useState(false);
@@ -69,11 +68,11 @@ export default function EditAccountScreen() {
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setName(accountData.name);
     setAccountType(accountData.type);
     setIcon(accountData.icon);
     setColor(accountData.color);
-    setCurrentAccount(accountData); // Store account data
     setLoading(false);
   }, [id]);
 

@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="">
+    <list default="true" id="6156ae12-edf4-47db-b7c7-0054872d5a1a" name="Changes" comment="change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,9 +36,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {}
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/DevWizardHQ/WizFlow.git&quot;,
@@ -72,7 +70,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/shazeedul/App/WizFlowApp",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -160,7 +158,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781979038091</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="change">
+      <option name="closed" value="true" />
+      <created>1781981623658</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1781981623658</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -185,7 +191,8 @@
     <MESSAGE value="fix account css" />
     <MESSAGE value="style: center balance amount" />
     <MESSAGE value=" feat: redesign data portability screens (backup, export, import) and add back buttons&#10;&#10;    - Redesigned backup, export, and import screens using adaptive cards, hero sections, and safe area views&#10;    - Added navigation header with a back button to `/backup`, `/export`, and `/import` pages&#10;    - Fixed typescript errors regarding `'allTime'` Period assignments in the export screen&#10;    - Resolved icon warning &quot;document-text-outline is not a valid icon name for family material-community&quot; by replacing it with &quot;file-document-outline&quot; in import and export screens&#10;    - Formatted updated files via Prettier and verified zero lint errors" />
-    <option name="LAST_COMMIT_MESSAGE" value=" feat: redesign data portability screens (backup, export, import) and add back buttons&#10;&#10;    - Redesigned backup, export, and import screens using adaptive cards, hero sections, and safe area views&#10;    - Added navigation header with a back button to `/backup`, `/export`, and `/import` pages&#10;    - Fixed typescript errors regarding `'allTime'` Period assignments in the export screen&#10;    - Resolved icon warning &quot;document-text-outline is not a valid icon name for family material-community&quot; by replacing it with &quot;file-document-outline&quot; in import and export screens&#10;    - Formatted updated files via Prettier and verified zero lint errors" />
+    <MESSAGE value="change" />
+    <option name="LAST_COMMIT_MESSAGE" value="change" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

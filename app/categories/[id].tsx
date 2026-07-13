@@ -70,6 +70,7 @@ export default function EditCategoryScreen() {
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setName(category.name);
     setType(category.type);
     setIcon(category.icon);
@@ -147,7 +148,7 @@ export default function EditCategoryScreen() {
         ],
       );
     }
-  }, [performDelete, id, name, type]);
+  }, [performDelete, id, name]);
 
   if (loading) {
     return (

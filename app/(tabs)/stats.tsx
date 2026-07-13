@@ -95,6 +95,7 @@ export default function StatsScreen() {
 
   // Load data when period changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadAnalyticsData(period);
   }, [period, loadAnalyticsData]);
 
