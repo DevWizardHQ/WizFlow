@@ -10,6 +10,7 @@ import {
 import { getSettings } from "@/database/operations/settings";
 import { Paths, File } from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { downloadFileOnWeb } from "@/utils/webDownload";
 
 const BACKUP_VERSION = 1;
 
@@ -58,9 +59,15 @@ export async function createBackup() {
  */
 export async function packageAndShareBackup() {
   const backupJson = await createBackup();
+  const fileName = `WizFlow_Backup_${new Date().toISOString().split("T")[0]}.json`;
+
+  if (downloadFileOnWeb(backupJson, fileName, "application/json")) {
+    return;
+  }
+
   const backupFile = new File(
     Paths.document,
-    `WizFlow_Backup_${new Date().toISOString().split("T")[0]}.json`,
+    fileName,
   );
 
   backupFile.write(backupJson);

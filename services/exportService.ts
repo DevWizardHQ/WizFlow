@@ -5,6 +5,7 @@
 import { getAllTransactions, getAllAccounts } from "@/database/operations";
 import { Paths, File } from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { downloadFileOnWeb } from "@/utils/webDownload";
 
 /**
  * Converts an array of objects to a CSV string.
@@ -52,9 +53,15 @@ export async function exportTransactionsCSV(startDate?: Date, endDate?: Date) {
   }));
 
   const csvString = toCSV(csvData);
+  const fileName = `WizFlow_Transactions_${new Date().toISOString().split("T")[0]}.csv`;
+
+  if (downloadFileOnWeb(csvString, fileName, "text/csv")) {
+    return;
+  }
+
   const file = new File(
     Paths.document,
-    `WizFlow_Transactions_${new Date().toISOString().split("T")[0]}.csv`,
+    fileName,
   );
 
   file.write(csvString);
@@ -81,9 +88,15 @@ export async function exportAccountsCSV() {
   }));
 
   const csvString = toCSV(csvData);
+  const fileName = `WizFlow_Accounts_${new Date().toISOString().split("T")[0]}.csv`;
+
+  if (downloadFileOnWeb(csvString, fileName, "text/csv")) {
+    return;
+  }
+
   const file = new File(
     Paths.document,
-    `WizFlow_Accounts_${new Date().toISOString().split("T")[0]}.csv`,
+    fileName,
   );
 
   file.write(csvString);

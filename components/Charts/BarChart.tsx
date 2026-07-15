@@ -29,6 +29,14 @@ export function BarChart({
   const textColor = useThemeColor({}, "text");
   const backgroundColor = useThemeColor({}, "background");
 
+  if (!data || data.length === 0) {
+    return (
+      <View style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(128,128,128,0.1)", borderRadius: 16 }}>
+        <ThemedText style={{ opacity: 0.5 }}>No trend data available</ThemedText>
+      </View>
+    );
+  }
+
   // Prepare data for react-native-chart-kit
   const chartData = {
     labels: data.map((point) => {

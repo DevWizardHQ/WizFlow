@@ -27,12 +27,23 @@ export function LineChart({
   const textColor = useThemeColor({}, "text");
   const backgroundColor = useThemeColor({}, "background");
 
+  if (!data || data.length === 0) {
+    return (
+      <View style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(128,128,128,0.1)", borderRadius: 16 }}>
+        <ThemedText style={{ opacity: 0.5 }}>No trend data available</ThemedText>
+      </View>
+    );
+  }
+
+  // If only 1 data point, duplicate it so the chart can draw a line instead of crashing (division by zero)
+  const safeData = data.length === 1 ? [data[0], data[0]] : data;
+
   // Calculate balance (income - expenses) for each point
-  const balanceData = data.map((point) => point.income - point.expenses);
+  const balanceData = safeData.map((point) => point.income - point.expenses);
 
   // Prepare data for react-native-chart-kit
   const chartData = {
-    labels: data.map((point) => {
+    labels: safeData.map((point) => {
       const date = new Date(point.label);
       return formatShortDate(date);
     }),
@@ -77,7 +88,7 @@ export function LineChart({
         withInnerLines={false}
         withShadow={false}
         withDots={true}
-        bezier
+        bezier={safeData.length >= 3}
         yAxisLabel=""
         yAxisSuffix=""
       />

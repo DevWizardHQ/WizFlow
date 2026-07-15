@@ -29,6 +29,14 @@ export function PieChart({
   const { settings } = useSettings();
   //   const backgroundColor = useThemeColor({}, 'background');
 
+  if (!data || data.length === 0) {
+    return (
+      <View style={{ width, height, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(128,128,128,0.1)", borderRadius: 16 }}>
+        <ThemedText style={{ opacity: 0.5 }}>No breakdown data available</ThemedText>
+      </View>
+    );
+  }
+
   // Prepare data for react-native-chart-kit
   const chartData = data.map((item, index) => ({
     name: item.category,

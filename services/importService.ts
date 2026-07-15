@@ -4,6 +4,7 @@
 
 import * as DocumentPicker from "expo-document-picker";
 import { File } from "expo-file-system";
+import { Platform } from "react-native";
 import {
   createTransaction,
   getAllAccounts,
@@ -83,8 +84,15 @@ export async function previewTransactionsFromCSV() {
     return null;
   }
 
-  const file = new File(result.assets[0].uri);
-  const csvContent = await file.text();
+  const asset = result.assets[0];
+  let csvContent: string;
+
+  if (Platform.OS === "web" && asset.file) {
+    csvContent = await asset.file.text();
+  } else {
+    const file = new File(asset.uri);
+    csvContent = await file.text();
+  }
   const parsedData = parseCSV(csvContent);
 
   const accounts = getAllAccounts();
