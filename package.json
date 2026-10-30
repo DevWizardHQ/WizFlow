@@ -52,6 +52,7 @@
     "expo-document-picker": "~56.0.4",
     "expo-sharing": "~56.0.18",
     "expo-sqlite": "~56.0.5",
+    "lefthook": "2.2.2",
     "prettier": "^3.8.4",
     "typescript": "~6.0.3"
   },
